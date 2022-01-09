@@ -1,5 +1,10 @@
 ﻿module.exports = (emitToAll, emitToOne, endGame, players, settings) => {
   const playerGameData = new Map();
+  const doneTexts = [];
+
+  function gameIsDone() {
+    return doneTexts.length === settings.textsPerPlayer * players.length;
+  }
 
   /**
    * Gets the index of a player
@@ -17,6 +22,15 @@
    */
   function makeText(startPlayerIndex) {
     return [];
+  }
+
+  /**
+   * Checks if a text is done
+   * @param {any} text The text
+   * @return {boolean} Whether it is one or not
+   */
+  function isDone(text) {
+    return text.length === settings.linesPerText;
   }
 
   /**
@@ -48,6 +62,16 @@
   function removeCurrentTextFromPlayer(playerId) {
     const gameData = playerGameData.get(playerId);
     return gameData.texts.shift();
+  }
+
+  /**
+   * Checks if the players current text is done
+   * @param {string} playerId The players id
+   * @return {boolean} Whether the players current text is done
+   */
+  function currentTextIsDone(playerId) {
+    const gameData = playerGameData.get(playerId);
+    return isDone(gameData.texts[0]);
   }
 
   /**
@@ -105,6 +129,21 @@
   }
 
   /**
+   * Removes the current text from the player and adds it to the completed texts
+   * @param {string} playerId The id of the player
+   */
+  function completeCurrentText(playerId) {
+    const text = removeCurrentTextFromPlayer(playerId);
+    doneTexts.push(text);
+  }
+
+  /**
+   * Completes the game
+   */
+  function completeGame() {
+  }
+
+  /**
    * Initializes the game-data
    */
   (function init() {
@@ -124,8 +163,12 @@
       lineDone(playerId, data) {
         const { line } = data;
         progressTextByPlayer(playerId, line);
-        passOnCurrentText(playerId);
+        if (currentTextIsDone(playerId)) completeCurrentText(playerId);
+        else passOnCurrentText(playerId);
         if (hasText(playerId)) sendNextTextToPlayer(playerId);
+        else if (gameIsDone()) {
+          completeGame();
+        }
       },
     },
   };
