@@ -1,6 +1,6 @@
 ﻿<template>
   <div>
-    <text-input />
+    <text-input v-if="hasLastLine" />
   </div>
 </template>
 
@@ -9,6 +9,22 @@ import TextInput from "../components/TextInput";
 export default {
   name: "TextWriting",
   components: { TextInput },
+  data() {
+    return {
+      lastLine: null,
+    };
+  },
+  computed: {
+    hasLastLine() {
+      return this.lastLine !== null;
+    },
+  },
+  sockets: {
+    nextText(data) {
+      const { lastLine } = data;
+      this.lastLine = lastLine;
+    },
+  },
 };
 </script>
 
