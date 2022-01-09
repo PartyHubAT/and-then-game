@@ -30,6 +30,11 @@ export default {
       const { lastLine } = data;
       this.lastLine = lastLine;
     },
+    gameDone(data) {
+      const { texts } = data;
+      this.$store.dispatch("setResults", texts);
+      this.$router.push("/results");
+    },
   },
 };
 </script>

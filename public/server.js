@@ -141,6 +141,7 @@
    * Completes the game
    */
   function completeGame() {
+    emitToAll("gameDone", { texts: doneTexts });
   }
 
   /**

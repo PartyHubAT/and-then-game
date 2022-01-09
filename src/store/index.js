@@ -6,8 +6,15 @@ const settings =
 export default createStore({
   state: {
     settings: settings,
+    results: [],
   },
-  mutations: {},
-  actions: {},
-  modules: {},
+  mutations: {
+    setResults: (state, results) => (state.results = results),
+  },
+  actions: {
+    setResults: ({ commit }, results) => commit("setResults", results),
+  },
+  getters: {
+    results: (state) => state.results,
+  },
 });
