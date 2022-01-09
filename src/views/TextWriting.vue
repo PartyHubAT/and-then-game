@@ -1,6 +1,6 @@
 ﻿<template>
   <div>
-    <text-input v-if="hasLastLine" />
+    <text-input v-if="hasLastLine" :last-line="lastLine" />
   </div>
 </template>
 
