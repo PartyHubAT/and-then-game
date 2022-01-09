@@ -1,6 +1,6 @@
 ﻿<template>
   <div>
-    <text-input v-if="hasLastLine" :last-line="lastLine" />
+    <text-input v-if="hasLastLine" :last-line="lastLine" @submit="reset" />
   </div>
 </template>
 
@@ -17,6 +17,11 @@ export default {
   computed: {
     hasLastLine() {
       return this.lastLine !== null;
+    },
+  },
+  methods: {
+    reset() {
+      this.lastLine = null;
     },
   },
   sockets: {
