@@ -1,6 +1,7 @@
 ﻿<template>
   <div>
     <text-input v-if="hasLastLine" :last-line="lastLine" @submit="reset" />
+    <span v-else>Waiting for text...</span>
   </div>
 </template>
 
