@@ -125,7 +125,6 @@
         const { line } = data;
         progressTextByPlayer(playerId, line);
         passOnCurrentText(playerId);
-        console.log(JSON.stringify(Array.from(playerGameData.entries())));
         if (hasText(playerId)) sendNextTextToPlayer(playerId);
       },
     },
