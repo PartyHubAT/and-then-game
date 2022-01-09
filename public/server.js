@@ -54,7 +54,17 @@
    * @returns {string} The last line
    */
   function getLastLine(text) {
-    return text.lastItem || "";
+    return text[text.length - 1] || "";
+  }
+
+  /**
+   * Checks if a player has a text to write
+   * @param {string} playerId The id of the player
+   * @return {boolean} Whether the player has a text
+   */
+  function hasText(playerId) {
+    const gameData = playerGameData.get(playerId);
+    return gameData.texts.length > 0;
   }
 
   /**
@@ -111,6 +121,7 @@
         const { line } = data;
         progressTextByPlayer(playerId, line);
         passOnCurrentText(playerId);
+        if (hasText(playerId)) sendNextTextToPlayer(playerId);
       },
     },
   };
