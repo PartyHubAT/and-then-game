@@ -1,9 +1,13 @@
 ﻿<template>
   <div>
-    <span>{{ prompt }}</span>
-    <span v-if="hasLastLine">{{ lastLine }}</span>
-    <label> Text <input maxlength="128" v-model="text" /> </label>
-    <button @click="submitText">Submit</button>
+    <div>
+      <div>{{ prompt }}</div>
+      <div v-if="hasLastLine">{{ lastLine }}</div>
+    </div>
+    <div>
+      <label> Text <input maxlength="128" v-model="text" /> </label>
+      <button @click="submitText">Submit</button>
+    </div>
   </div>
 </template>
 
