@@ -1,3 +1,6 @@
-﻿module.exports = {
-  register(socket, emitInRoom) {},
-};
+﻿module.exports = (emitToAll, emitToOne, endGame, players, settings) => ({
+  startGame() {
+  },
+  events: {
+  }
+});
