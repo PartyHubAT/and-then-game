@@ -33,10 +33,9 @@ export default {
   },
   methods: {
     submitText() {
-      this.$emit("submitText", this.text);
+      this.$socket.emit("lineDone", { line: this.text });
     },
   },
-  emits: ["submitText"],
 };
 </script>
 

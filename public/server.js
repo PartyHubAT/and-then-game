@@ -1,6 +1,13 @@
 ﻿module.exports = (emitToAll, emitToOne, endGame, players, settings) => {
   const playerGameData = new Map();
 
+  /**
+   * Gets the index of a player
+   * @param {string} playerId The id of the player
+   * @returns {number} The players index
+   */
+  function getPlayerIndex(playerId) {
+    return players.findIndex((player) => player._id === playerId);
   }
 
   /**
@@ -13,6 +20,15 @@
   }
 
   /**
+   * Adds a new line to the text
+   * @param {any} text The text
+   * @param {string} line The new line
+   */
+  function addLine(text, line) {
+    text.push(line);
+  }
+
+  /**
    * Adds a text to a players writing-queue
    * @param {string} playerId The id of the player
    * @param {any} text The text to add
@@ -20,6 +36,16 @@
   function addTextToPlayer(playerId, text) {
     const data = playerGameData.get(playerId);
     data.texts.push(text);
+  }
+
+  /**
+   * Removes and returns the current text of a player
+   * @param {string} playerId The id of the player
+   * @return {any} The text
+   */
+  function removeCurrentTextFromPlayer(playerId) {
+    const gameData = playerGameData.get(playerId);
+    return gameData.texts.shift();
   }
 
   /**
@@ -44,6 +70,27 @@
   }
 
   /**
+   * Passes on the current text of the player to another player
+   * @param {string} playerId The id of the player
+   */
+  function passOnCurrentText(playerId) {
+    const index = getPlayerIndex(playerId);
+    const nextIndex = index < players.length - 1 ? index + 1 : 0;
+    const text = removeCurrentTextFromPlayer(playerId);
+    addTextToPlayer(players[nextIndex]._id, text);
+  }
+
+  /**
+   * Progresses the current text of the player
+   * @param {string} playerId The id of the player
+   * @param {string} newLine The new line to be added to the text
+   */
+  function progressTextByPlayer(playerId, newLine) {
+    const gameData = playerGameData.get(playerId);
+    addLine(gameData.texts[0], newLine);
+  }
+
+  /**
    * Initializes the game-data
    */
   (function init() {
@@ -59,6 +106,12 @@
     startGame() {
       players.forEach((player) => sendNextTextToPlayer(player._id));
     },
-    events: {},
+    events: {
+      lineDone(playerId, data) {
+        const { line } = data;
+        progressTextByPlayer(playerId, line);
+        passOnCurrentText(playerId);
+      },
+    },
   };
 };
