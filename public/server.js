@@ -34,8 +34,10 @@
    * @param {any} text The text to add
    */
   function addTextToPlayer(playerId, text) {
-    const data = playerGameData.get(playerId);
-    data.texts.push(text);
+    const gameData = playerGameData.get(playerId);
+    gameData.texts.push(text);
+
+    if (gameData.waiting) sendNextTextToPlayer(playerId);
   }
 
   /**
@@ -77,6 +79,7 @@
     const lastLine = getLastLine(nextText);
 
     emitToOne(playerId, "nextText", { lastLine });
+    gameData.waiting = false;
   }
 
   /**
@@ -97,6 +100,7 @@
    */
   function progressTextByPlayer(playerId, newLine) {
     const gameData = playerGameData.get(playerId);
+    gameData.waiting = true;
     addLine(gameData.texts[0], newLine);
   }
 
@@ -104,23 +108,24 @@
    * Initializes the game-data
    */
   (function init() {
-    players.forEach((player, index) => {
-      playerGameData.set(player._id, { texts: [] });
-
-      for (let i = 0; i < settings.textsPerPlayer; i++)
-        addTextToPlayer(player._id, makeText(index));
+    players.forEach((player) => {
+      playerGameData.set(player._id, { texts: [], waiting: true });
     });
   })();
 
   return {
     startGame() {
-      players.forEach((player) => sendNextTextToPlayer(player._id));
+      players.forEach((player, index) => {
+        for (let i = 0; i < settings.textsPerPlayer; i++)
+          addTextToPlayer(player._id, makeText(index));
+      });
     },
     events: {
       lineDone(playerId, data) {
         const { line } = data;
         progressTextByPlayer(playerId, line);
         passOnCurrentText(playerId);
+        console.log(JSON.stringify(Array.from(playerGameData.entries())));
         if (hasText(playerId)) sendNextTextToPlayer(playerId);
       },
     },
