@@ -8,8 +8,17 @@
       max: 10,
       required: true,
     },
+    linesPerText: {
+      type: Number,
+      displayName: "Lines per text",
+      label: "How many lines should each text have?",
+      min: 2,
+      max: 10,
+      required: true,
+    },
   },
   defaultValues: {
     textsPerPlayer: 1,
+    linesPerText: 3
   },
 };
