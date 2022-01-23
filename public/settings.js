@@ -17,6 +17,9 @@
       required: true,
     },
   },
+  /**
+   * @type {Settings}
+   */
   defaultValues: {
     textsPerPlayer: 1,
     linesPerText: 3

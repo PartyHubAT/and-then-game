@@ -1,4 +1,12 @@
-﻿module.exports = (emitToAll, emitToOne, endGame, players, settings) => {
+﻿/**
+ * @param {EmitToAll} emitToAll
+ * @param {EmitToOne} emitToOne
+ * @param {EndGame} endGame
+ * @param {Player[]} players
+ * @param {Settings} settings
+ * @return {GameServer}
+ */
+function initServerLogic(emitToAll, emitToOne, endGame, players, settings) {
   const playerGameData = new Map();
   const doneTexts = [];
 
@@ -175,8 +183,10 @@
       startWaiting(playerId) {
         const gameData = playerGameData.get(playerId);
         gameData.waiting = true;
-        sendNextTextToPlayer(playerId)
-      },
+        sendNextTextToPlayer(playerId);
+      }
     },
   };
-};
+}
+
+module.exports = initServerLogic;
