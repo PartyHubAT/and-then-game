@@ -1,4 +1,48 @@
-﻿/**
+﻿class Text {
+  /**
+   * The lines in this text
+   * @type {string[]}
+   */
+  #lines = [];
+
+  constructor() {
+    this.#lines = [];
+  }
+
+  /**
+   * Add a line to the text
+   * @param {string} line The line to add
+   */
+  addLine(line) {
+    this.#lines.push(line);
+  }
+
+  /**
+   * Gets the texts line-count
+   * @return {number} The line-count
+   */
+  get lineCount() {
+    return this.#lines.length;
+  }
+
+  /**
+   * Gets the last line in the text
+   * @return {string} The last line or undefined if not found
+   */
+  get lastLine() {
+    return this.#lines[this.lineCount - 1] || "";
+  }
+
+  /**
+   * Gets the texts lines
+   * @return {string[]} The lines
+   */
+  get lines() {
+    return this.#lines;
+  }
+}
+
+/**
  * @param {EmitToAll} emitToAll
  * @param {EmitToOne} emitToOne
  * @param {EndGame} endGame
@@ -7,9 +51,19 @@
  * @return {GameServer}
  */
 function initServerLogic(emitToAll, emitToOne, endGame, players, settings) {
+  /**
+   * @type {Map<PlayerId, GameData>}
+   */
   const playerGameData = new Map();
+  /**
+   * @type {Text[]}
+   */
   const doneTexts = [];
 
+  /**
+   * Checks if the game is complete
+   * @return {boolean}
+   */
   function gameIsDone() {
     return doneTexts.length === settings.textsPerPlayer * players.length;
   }
@@ -26,34 +80,25 @@ function initServerLogic(emitToAll, emitToOne, endGame, players, settings) {
   /**
    * Makes a text that will be worked on in this game
    * @param {number} startPlayerIndex The index of the player that will start this text
-   * @returns {any} The text
+   * @returns {Text} The created text
    */
   function makeText(startPlayerIndex) {
-    return [];
+    return new Text();
   }
 
   /**
    * Checks if a text is done
-   * @param {any} text The text
+   * @param {Text} text The text
    * @return {boolean} Whether it is one or not
    */
   function isDone(text) {
-    return text.length === settings.linesPerText;
-  }
-
-  /**
-   * Adds a new line to the text
-   * @param {any} text The text
-   * @param {string} line The new line
-   */
-  function addLine(text, line) {
-    text.push(line);
+    return text.lineCount === settings.linesPerText;
   }
 
   /**
    * Adds a text to a players writing-queue
    * @param {string} playerId The id of the player
-   * @param {any} text The text to add
+   * @param {Text} text The text to add
    */
   function addTextToPlayer(playerId, text) {
     const gameData = playerGameData.get(playerId);
@@ -65,7 +110,7 @@ function initServerLogic(emitToAll, emitToOne, endGame, players, settings) {
   /**
    * Removes and returns the current text of a player
    * @param {string} playerId The id of the player
-   * @return {any} The text
+   * @return {Text} The text
    */
   function removeCurrentTextFromPlayer(playerId) {
     const gameData = playerGameData.get(playerId);
@@ -80,15 +125,6 @@ function initServerLogic(emitToAll, emitToOne, endGame, players, settings) {
   function currentTextIsDone(playerId) {
     const gameData = playerGameData.get(playerId);
     return isDone(gameData.texts[0]);
-  }
-
-  /**
-   * Gets the last in a text
-   * @param {any} text The text
-   * @returns {string} The last line
-   */
-  function getLastLine(text) {
-    return text[text.length - 1] || "";
   }
 
   /**
@@ -108,9 +144,8 @@ function initServerLogic(emitToAll, emitToOne, endGame, players, settings) {
   function sendNextTextToPlayer(playerId) {
     const gameData = playerGameData.get(playerId);
     const nextText = gameData.texts[0];
-    const lastLine = getLastLine(nextText);
 
-    emitToOne(playerId, "nextText", { lastLine });
+    emitToOne(playerId, "nextText", { lastLine: nextText.lastLine });
     gameData.waiting = false;
   }
 
@@ -133,7 +168,7 @@ function initServerLogic(emitToAll, emitToOne, endGame, players, settings) {
   function progressTextByPlayer(playerId, newLine) {
     const gameData = playerGameData.get(playerId);
     gameData.waiting = true;
-    addLine(gameData.texts[0], newLine);
+    gameData.texts[0].addLine(newLine);
   }
 
   /**
@@ -149,7 +184,7 @@ function initServerLogic(emitToAll, emitToOne, endGame, players, settings) {
    * Completes the game
    */
   function completeGame() {
-    emitToAll("gameDone", { texts: doneTexts });
+    emitToAll("gameDone", { texts: doneTexts.map((it) => it.lines) });
   }
 
   /**
@@ -184,7 +219,7 @@ function initServerLogic(emitToAll, emitToOne, endGame, players, settings) {
         const gameData = playerGameData.get(playerId);
         gameData.waiting = true;
         sendNextTextToPlayer(playerId);
-      }
+      },
     },
   };
 }
