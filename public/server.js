@@ -149,7 +149,7 @@
    */
   (function init() {
     players.forEach((player) => {
-      playerGameData.set(player._id, { texts: [], waiting: true });
+      playerGameData.set(player._id, { texts: [], waiting: false });
     });
   })();
 
@@ -158,6 +158,7 @@
       players.forEach((player, index) => {
         for (let i = 0; i < settings.textsPerPlayer; i++)
           addTextToPlayer(player._id, makeText(index));
+        emitToOne(player._id, "start", {});
       });
     },
     events: {
@@ -170,6 +171,11 @@
         else if (gameIsDone()) {
           completeGame();
         }
+      },
+      startWaiting(playerId) {
+        const gameData = playerGameData.get(playerId);
+        gameData.waiting = true;
+        sendNextTextToPlayer(playerId)
       },
     },
   };

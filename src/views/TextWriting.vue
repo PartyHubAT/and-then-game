@@ -36,6 +36,9 @@ export default {
       this.$router.push("/results");
     },
   },
+  mounted() {
+    this.$socket.emit("startWaiting", {});
+  },
 };
 </script>
 
