@@ -6,7 +6,7 @@
     </div>
     <div>
       <label> Text <input maxlength="128" v-model="text" /> </label>
-      <button @click="submitText">Submit</button>
+      <button @click="submitText" :disabled="!canSubmit">Submit</button>
     </div>
   </div>
 </template>
@@ -33,6 +33,9 @@ export default {
       return this.hasLastLine
         ? "Continue the last-line"
         : "Enter the first line.";
+    },
+    canSubmit() {
+      return this.text.length > 0;
     },
   },
   methods: {
