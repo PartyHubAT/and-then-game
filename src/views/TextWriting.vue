@@ -1,6 +1,16 @@
 ﻿<template>
-  <div>
-    <text-input v-if="hasLastLine" :last-line="lastLine" @submit="reset" />
+  <div class="title">And then...</div>
+  <div class="content">
+    <div class="form" v-if="readyToWrite">
+      <span class="prompt">{{ prompt }}</span>
+      <div v-if="readyToWrite && !isFirstLine">{{ lastLine }}</div>
+      <div class="input-section">
+        <text-input v-model="text" />
+        <button class="send-button" @click="submitText" :disabled="!canSubmit">
+          Send
+        </button>
+      </div>
+    </div>
     <span v-else>Waiting for text...</span>
   </div>
 </template>
@@ -13,16 +23,33 @@ export default {
   data() {
     return {
       lastLine: null,
+      text: "",
     };
   },
   computed: {
-    hasLastLine() {
+    readyToWrite() {
       return this.lastLine !== null;
+    },
+    isFirstLine() {
+      return this.readyToWrite && this.lastLine === "";
+    },
+    canSubmit() {
+      return this.text.length > 0;
+    },
+    prompt() {
+      return this.isFirstLine
+        ? "Start a new text ✍"
+        : "Continue the last-line";
     },
   },
   methods: {
     reset() {
       this.lastLine = null;
+      this.text = "";
+    },
+    submitText() {
+      this.$socket.emit("lineDone", { line: this.text });
+      this.reset();
     },
   },
   sockets: {
@@ -42,4 +69,74 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.title {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-family: var(--font-header);
+  color: var(--primary);
+  margin: var(--space-small);
+  font-size: 25px;
+}
+
+.content {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.prompt {
+  color: var(--primary);
+  font-family: var(--font-content);
+}
+
+.send-button {
+  background-color: var(--primary);
+  border: 0;
+  font-family: var(--font-content);
+  color: var(--on-primary);
+}
+
+.send-button:hover {
+  background-color: var(--primary-light);
+}
+
+.send-button:disabled {
+  background-color: var(--primary-disabled);
+}
+
+.send-button:active {
+  background-color: var(--primary-dark);
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .prompt {
+    font-size: 30px;
+    margin-bottom: var(--space-large);
+  }
+
+  .input-section {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 90%;
+  }
+
+  .send-button {
+    margin-top: var(--space-large);
+    padding: var(--space-medium);
+    border-radius: 10px;
+    font-size: 20px;
+  }
+}
+</style>

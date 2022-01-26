@@ -1,51 +1,47 @@
 ﻿<template>
-  <div>
-    <div>
-      <div>{{ prompt }}</div>
-      <div v-if="hasLastLine">{{ lastLine }}</div>
-    </div>
-    <div>
-      <label> Text <input maxlength="128" v-model="text" /> </label>
-      <button @click="submitText" :disabled="!canSubmit">Submit</button>
-    </div>
-  </div>
+  <textarea
+    class="line-input"
+    maxlength="128"
+    :value="modelValue"
+    @input="$emit('update:modelValue', $event.target.value)"
+    placeholder="Enter the first line..."
+  />
 </template>
 
 <script>
 export default {
   name: "TextInput",
   props: {
-    lastLine: {
-      type: String,
-      required: true,
-    },
+    modelValue: String,
   },
-  data() {
-    return {
-      text: "",
-    };
-  },
-  computed: {
-    hasLastLine() {
-      return this.lastLine !== "";
-    },
-    prompt() {
-      return this.hasLastLine
-        ? "Continue the last-line"
-        : "Enter the first line.";
-    },
-    canSubmit() {
-      return this.text.length > 0;
-    },
-  },
-  methods: {
-    submitText() {
-      this.$socket.emit("lineDone", { line: this.text });
-      this.$emit("submit");
-    },
-  },
-  emits: ["submit"],
+  emits: ["update:modelValue"],
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.line-input {
+  border: 0;
+  color: var(--primary);
+  font-family: var(--font-content);
+  outline: none;
+  resize: none;
+}
+
+.line-input::placeholder {
+  color: var(--primary-light);
+  font-family: var(--font-content);
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .line-input {
+    padding: var(--space-small);
+    border-radius: 10px;
+    font-size: 15px;
+  }
+
+  .line-input::placeholder {
+    font-size: 15px;
+  }
+}
+</style>

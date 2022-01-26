@@ -3,31 +3,51 @@
 
 :root {
   --primary: #2d607c;
+  --primary-light: #4D84A1;
+  --primary-dark: #184762;
+  --primary-disabled: #A0B6C1;
+  --on-primary: #e8e8e8;
   --surface: #f8f8f8;
   --background: #fdba1a;
   --background-dark: #f09d06;
-  --font-header: "Yatra One";
-  --font-content: "Varta";
+  --font-header: "Yatra One", "Arial";
+  --font-content: "Varta", "SansSerif";
 }
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
-
+  :root {
+    --space-small: 5px;
+    --space-medium: 10px;
+    --space-large: 20px;
+  }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
-
+  :root {
+    --space-small: 10px;
+    --space-medium: 20px;
+    --space-large: 40px;
+  }
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
-
+  :root {
+    --space-small: 10px;
+    --space-medium: 20px;
+    --space-large: 40px;
+  }
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
-
+  :root {
+    --space-small: 10px;
+    --space-medium: 20px;
+    --space-large: 40px;
+  }
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */

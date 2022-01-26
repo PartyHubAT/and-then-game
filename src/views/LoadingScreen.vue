@@ -26,11 +26,11 @@ export default {
   justify-content: center;
 }
 .title {
-  font-family: var(--font-header), "Arial";
+  font-family: var(--font-header);
   color: var(--primary);
 }
 .subtitle {
-  font-family: var(--font-content), "SansSerif";
+  font-family: var(--font-content);
   color: #f8f8f8;
 }
 
