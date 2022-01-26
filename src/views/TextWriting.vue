@@ -2,7 +2,7 @@
   <div class="title">And then...</div>
   <div class="content">
     <div class="form" v-if="readyToWrite">
-      <span class="prompt">{{ prompt }}</span>
+      <writing-prompt :is-first-line="isFirstLine" />
       <div v-if="readyToWrite && !isFirstLine">{{ lastLine }}</div>
       <div class="input-section">
         <text-input v-model="text" />
@@ -17,9 +17,10 @@
 
 <script>
 import TextInput from "../components/TextInput";
+import WritingPrompt from "../components/WritingPrompt";
 export default {
   name: "TextWriting",
-  components: { TextInput },
+  components: { WritingPrompt, TextInput },
   data() {
     return {
       lastLine: null,
@@ -35,11 +36,6 @@ export default {
     },
     canSubmit() {
       return this.text.length > 0;
-    },
-    prompt() {
-      return this.isFirstLine
-        ? "Start a new text ✍"
-        : "Continue the last-line";
     },
   },
   methods: {
@@ -94,11 +90,6 @@ export default {
   align-items: center;
 }
 
-.prompt {
-  color: var(--primary);
-  font-family: var(--font-content);
-}
-
 .send-button {
   background-color: var(--primary);
   border: 0;
@@ -120,11 +111,6 @@ export default {
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
-  .prompt {
-    font-size: 30px;
-    margin-bottom: var(--space-large);
-  }
-
   .input-section {
     display: flex;
     flex-direction: column;
