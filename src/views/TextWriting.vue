@@ -6,9 +6,7 @@
       <div v-if="readyToWrite && !isFirstLine">{{ lastLine }}</div>
       <div class="input-section">
         <text-input v-model="text" />
-        <button class="send-button" @click="submitText" :disabled="!canSubmit">
-          Send
-        </button>
+        <send-button @click="submitText" :can-send="hasEnteredText" />
       </div>
     </div>
     <span v-else>Waiting for text...</span>
@@ -18,9 +16,10 @@
 <script>
 import TextInput from "../components/TextInput";
 import WritingPrompt from "../components/WritingPrompt";
+import SendButton from "../components/SendButton";
 export default {
   name: "TextWriting",
-  components: { WritingPrompt, TextInput },
+  components: { SendButton, WritingPrompt, TextInput },
   data() {
     return {
       lastLine: null,
@@ -34,7 +33,7 @@ export default {
     isFirstLine() {
       return this.readyToWrite && this.lastLine === "";
     },
-    canSubmit() {
+    hasEnteredText() {
       return this.text.length > 0;
     },
   },
@@ -90,25 +89,6 @@ export default {
   align-items: center;
 }
 
-.send-button {
-  background-color: var(--primary);
-  border: 0;
-  font-family: var(--font-content);
-  color: var(--on-primary);
-}
-
-.send-button:hover {
-  background-color: var(--primary-light);
-}
-
-.send-button:disabled {
-  background-color: var(--primary-disabled);
-}
-
-.send-button:active {
-  background-color: var(--primary-dark);
-}
-
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
   .input-section {
@@ -116,13 +96,6 @@ export default {
     flex-direction: column;
     align-items: stretch;
     width: 90%;
-  }
-
-  .send-button {
-    margin-top: var(--space-large);
-    padding: var(--space-medium);
-    border-radius: 10px;
-    font-size: 20px;
   }
 }
 </style>
