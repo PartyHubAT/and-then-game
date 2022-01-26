@@ -27,12 +27,41 @@ export default {
 }
 .title {
   font-family: var(--font-header), "Arial";
-  font-size: 70ex;
   color: var(--primary);
 }
 .subtitle {
   font-family: var(--font-content), "SansSerif";
   color: #f8f8f8;
-  font-size: 15ex;
 }
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .title {
+    font-size: 50px;
+  }
+  .subtitle {
+    font-size: 20px;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .title {
+    font-size: 80px;
+  }
+  .subtitle {
+    font-size: 20px;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .title {
+    font-size: 100px;
+  }
+  .subtitle {
+    font-size: 25px;
+  }
+}
+
 </style>
