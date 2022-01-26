@@ -1,18 +1,32 @@
-﻿:root {
-  --primary: #31a1e6;
-  --primary-dark: #0e3693;
+﻿@import url("https://fonts.googleapis.com/css2?family=Roboto&family=Yatra+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto&family=Varta&family=Yatra+One&display=swap");
+
+:root {
+  --primary: #2d607c;
+  --surface: #f8f8f8;
+  --background: #fdba1a;
+  --background-dark: #f09d06;
+  --space-small: 10px;
+  --space-medium: 20px;
+  --space-large: 40px;
+  --font-header: "Yatra One";
+  --font-content: "Varta";
 }
 
 .background {
-    background: linear-gradient(135deg, var(--primary) 1%, var(--primary-dark) 100%);
+  background: radial-gradient(
+    circle farthest-corner at top left,
+    var(--background) 0,
+    var(--background-dark) 100%
+  );
 }
 
 body {
-    margin: 0;
+  margin: 0;
 }
 
 #app {
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 }
