@@ -11,7 +11,7 @@
         <send-button @click="submitText" :can-send="hasEnteredText" />
       </div>
     </div>
-    <span v-else>Waiting for text...</span>
+    <span class="waitText" v-else>Waiting for next text. 😴</span>
   </div>
 </template>
 
@@ -99,6 +99,12 @@ export default {
   word-wrap: anywhere;
 }
 
+.waitText {
+  font-family: var(--font-content);
+  color: white;
+  text-align: center;
+}
+
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
   .input-section {
@@ -114,6 +120,9 @@ export default {
     margin-bottom: var(--space-medium);
   }
 
+  .waitText {
+    font-size: 20px;
+  }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
@@ -131,6 +140,9 @@ export default {
     margin-bottom: var(--space-medium);
   }
 
+  .waitText {
+    font-size: 40px;
+  }
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
@@ -151,5 +163,8 @@ export default {
     margin-bottom: var(--space-medium);
   }
 
+  .waitText {
+    font-size: 40px;
+  }
 }
 </style>
