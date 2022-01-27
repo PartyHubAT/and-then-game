@@ -1,7 +1,7 @@
 ﻿<template>
   <textarea
     class="line-input"
-    maxlength="256"
+    maxlength="128"
     :value="modelValue"
     @input="$emit('update:modelValue', $event.target.value)"
     placeholder="Enter the first line..."
