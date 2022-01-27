@@ -65,13 +65,34 @@ export default {
     border-radius: 15px;
     font-size: 20px;
     height: 40px;
-    white-space: pre;
+    white-space: nowrap;
     overflow-wrap: normal;
+    overflow-y: hidden;
     overflow-x: scroll;
   }
 
   .line-input::placeholder {
     font-size: 20px;
+  }
+
+  .line-input::-webkit-scrollbar {
+    height: 5px;
+  }
+
+  .line-input::-webkit-scrollbar-track {
+    background: #00000000;
+    border-radius: 2px;
+  }
+
+  .line-input::-webkit-scrollbar-thumb {
+    background-color: var(--primary);
+    border-radius: 2px;
+    height: 100%;
+  }
+
+  .line-input {
+    scrollbar-height: thin;
+    scrollbar-color: var(--primary) #00000000;
   }
 }
 </style>
