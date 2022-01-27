@@ -14,7 +14,7 @@ export default {
     text() {
       return this.isFirstLine
         ? "Start a new text ✍"
-        : "Continue the last-line";
+        : "Continue the last-line 🤔";
     },
   },
 };

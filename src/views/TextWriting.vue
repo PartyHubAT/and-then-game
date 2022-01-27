@@ -3,7 +3,9 @@
   <div class="content">
     <div class="form" v-if="readyToWrite">
       <writing-prompt :is-first-line="isFirstLine" />
-      <div v-if="readyToWrite && !isFirstLine">{{ lastLine }}</div>
+      <div v-if="readyToWrite && !isFirstLine" class="lastLine">
+        {{ lastLine }}
+      </div>
       <div class="input-section">
         <text-input class="text-input" v-model="text" />
         <send-button @click="submitText" :can-send="hasEnteredText" />
@@ -90,6 +92,13 @@ export default {
   align-items: center;
 }
 
+.lastLine {
+  font-family: var(--font-content);
+  color: white;
+  text-align: center;
+  word-wrap: anywhere;
+}
+
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
   .input-section {
@@ -98,6 +107,13 @@ export default {
     align-items: stretch;
     width: 80%;
   }
+
+  .lastLine {
+    width: 90%;
+    font-size: 20px;
+    margin-bottom: var(--space-medium);
+  }
+
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
@@ -108,6 +124,13 @@ export default {
     align-items: stretch;
     width: 60%;
   }
+
+  .lastLine {
+    width: 80%;
+    font-size: 20px;
+    margin-bottom: var(--space-medium);
+  }
+
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
@@ -119,8 +142,14 @@ export default {
     width: 80%;
   }
 
-  .text-input{
+  .text-input {
     flex-grow: 1;
   }
+
+  .lastLine {
+    font-size: 20px;
+    margin-bottom: var(--space-medium);
+  }
+
 }
 </style>
