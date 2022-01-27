@@ -24,12 +24,27 @@ export default {
 .prompt {
   color: var(--primary);
   font-family: var(--font-content);
+  margin-bottom: var(--space-large);
 }
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
   .prompt {
     font-size: 30px;
-    margin-bottom: var(--space-large);
   }
 }
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .prompt {
+    font-size: 30px;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .prompt {
+    font-size: 40px;
+  }
+}
+
 </style>

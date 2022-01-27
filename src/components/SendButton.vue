@@ -18,6 +18,7 @@ export default {
 .send-button {
   background-color: var(--primary);
   border: 0;
+  padding: var(--space-small);
   font-family: var(--font-content);
   color: var(--on-primary);
 }
@@ -38,9 +39,27 @@ export default {
 @media only screen and (max-width: 600px) {
   .send-button {
     margin-top: var(--space-large);
-    padding: var(--space-medium);
     border-radius: 10px;
     font-size: 20px;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .send-button {
+    margin-top: var(--space-large);
+    border-radius: 10px;
+    font-size: 20px;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .send-button {
+    margin-left: var(--space-medium);
+    margin-top: 0;
+    border-radius: 10px;
+    padding: var(--space-small) var(--space-medium);
   }
 }
 </style>

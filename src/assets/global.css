@@ -3,9 +3,9 @@
 
 :root {
   --primary: #2d607c;
-  --primary-light: #4D84A1;
+  --primary-light: #4d84a1;
   --primary-dark: #184762;
-  --primary-disabled: #A0B6C1;
+  --primary-disabled: #a0b6c1;
   --on-primary: #e8e8e8;
   --surface: #f8f8f8;
   --background: #fdba1a;
@@ -26,18 +26,18 @@
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
   :root {
-    --space-small: 10px;
-    --space-medium: 20px;
-    --space-large: 40px;
+    --space-small: 7px;
+    --space-medium: 15px;
+    --space-large: 30px;
   }
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
   :root {
-    --space-small: 10px;
-    --space-medium: 20px;
-    --space-large: 40px;
+    --space-small: 7px;
+    --space-medium: 15px;
+    --space-large: 30px;
   }
 }
 

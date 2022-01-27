@@ -5,7 +5,7 @@
       <writing-prompt :is-first-line="isFirstLine" />
       <div v-if="readyToWrite && !isFirstLine">{{ lastLine }}</div>
       <div class="input-section">
-        <text-input v-model="text" />
+        <text-input class="text-input" v-model="text" />
         <send-button @click="submitText" :can-send="hasEnteredText" />
       </div>
     </div>
@@ -84,6 +84,7 @@ export default {
 }
 
 .form {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -95,7 +96,31 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    width: 90%;
+    width: 80%;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .input-section {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 60%;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .input-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 80%;
+  }
+
+  .text-input{
+    flex-grow: 1;
   }
 }
 </style>
