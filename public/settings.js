@@ -1,7 +1,7 @@
 ﻿module.exports = {
   form: {
     textsPerPlayer: {
-      type: Number,
+      type: "Number",
       displayName: "Texts per player",
       label: "How many texts will each player write?",
       min: 1,
@@ -9,12 +9,27 @@
       required: true,
     },
     linesPerText: {
-      type: Number,
+      type: "Number",
       displayName: "Lines per text",
       label: "How many lines should each text have?",
       min: 2,
       max: 10,
       required: true,
+    },
+    genre: {
+      type: "Select",
+      displayName: "Genre",
+      label: "What genre should the texts be",
+      options: [
+        "Random",
+        "Horror-story",
+        "Adventure-story",
+        "Slice-of-life-story",
+        "Dialog",
+        "Recipe",
+        "Song-text",
+        "Rap-beat",
+      ],
     },
   },
   /**
@@ -22,6 +37,7 @@
    */
   defaultValues: {
     textsPerPlayer: 1,
-    linesPerText: 3
+    linesPerText: 3,
+    genre: "Random",
   },
 };
