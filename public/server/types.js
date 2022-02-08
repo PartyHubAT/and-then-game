@@ -20,7 +20,7 @@
  */
 
 /**
- * @typedef {Object} Player
+ * @typedef {Object} PlayerInfo
  * @property {PlayerId} _id
  * @property {string} name
  */
@@ -45,4 +45,9 @@
  * @typedef {Object} GameData
  * @property {Text[]} texts
  * @property {boolean} waiting
+ */
+
+/**
+ * @typedef {Object} LineDoneData
+ * @property {string} line
  */

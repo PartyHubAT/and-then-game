@@ -7,9 +7,18 @@ class Text {
    * @type {string[]}
    */
   #lines = [];
+  /**
+   * The id of the last player that worked on this text
+   * @type {PlayerId}
+   */
+  #lastPlayer;
 
-  constructor() {
+  /**
+   * @param {PlayerId} firstPlayer The id of the first player that will work on this text
+   */
+  constructor(firstPlayer) {
     this.#lines = [];
+    this.#lastPlayer = firstPlayer;
   }
 
   /**
@@ -29,6 +38,22 @@ class Text {
   }
 
   /**
+   * Gets the id of the player who last worked on this text
+   * @return {PlayerId} The players id
+   */
+  get lastPlayer() {
+    return this.#lastPlayer;
+  }
+
+  /**
+   * Sets the id of the player who last worked on this text
+   * @param {PlayerId} lastPlayer The players id
+   */
+  set lastPlayer(lastPlayer) {
+    this.#lastPlayer = lastPlayer;
+  }
+
+  /**
    * Gets the last line in the text
    * @return {string} The last line or undefined if not found
    */
@@ -43,6 +68,16 @@ class Text {
   get lines() {
     return this.#lines;
   }
+
+  /**
+   * Makes a prompt for continuing this text
+   * @return {Prompt} The created prompt
+   */
+  makePrompt() {
+    return {
+      lastLine: this.lastLine,
+    };
+  }
 }
 
-module.exports = Text
+module.exports = Text;

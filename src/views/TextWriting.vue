@@ -50,9 +50,12 @@ export default {
     },
   },
   sockets: {
-    nextText(data) {
-      const { lastLine } = data;
-      this.lastLine = lastLine;
+    /**
+     * Called when a prompt is received from the server
+     * @param {Prompt} prompt
+     */
+    receivePrompt(prompt) {
+      this.lastLine = prompt.lastLine;
     },
     gameDone(data) {
       const { texts } = data;
@@ -61,7 +64,7 @@ export default {
     },
   },
   mounted() {
-    this.$socket.emit("startWaiting", {});
+    this.$socket.emit("requestPrompt", {});
   },
 };
 </script>
