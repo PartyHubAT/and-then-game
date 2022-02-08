@@ -78,7 +78,11 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
    * Sends the games results to all players
    */
   function sendResults() {
-    emitToAll("gameDone", { texts: doneTexts.map((it) => it.lines) });
+    /**
+     * @type {GameResults}
+     */
+    let results = { texts: doneTexts.map((it) => it.lines) }
+    emitToAll("gameDone", results);
   }
 
   /**

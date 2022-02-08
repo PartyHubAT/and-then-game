@@ -57,8 +57,12 @@ export default {
     receivePrompt(prompt) {
       this.lastLine = prompt.lastLine;
     },
-    gameDone(data) {
-      const { texts } = data;
+    /**
+     * Called when the game ends
+     * @param {GameResults} results The games results
+     */
+    gameDone(results) {
+      const { texts } = results;
       this.$store.dispatch("setResults", texts);
       this.$router.push("/results");
     },
