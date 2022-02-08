@@ -1,6 +1,6 @@
-﻿const Player = require("./server/Player");
-const PlayerState = require("./server/PlayerState");
-const CollectionUtil = require("./server/collectionUtil");
+﻿const Player = require("./Player");
+const PlayerState = require("./PlayerState");
+const CollectionUtil = require("./collectionUtil");
 
 /**
  * @param {EmitToAll} emitToAll
@@ -81,7 +81,7 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
     /**
      * @type {GameResults}
      */
-    let results = { texts: doneTexts.map((it) => it.lines) }
+    let results = { texts: doneTexts.map((it) => it.lines) };
     emitToAll("gameDone", results);
   }
 
@@ -139,8 +139,8 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
       lineDone(playerId, data) {
         continueText(playerId, data.line);
         continuePlayer(playerId);
-      }
-    }
+      },
+    },
   };
 }
 

@@ -18,4 +18,4 @@ const PlayerState = {
   DONE: 2,
 };
 
-module.exports = PlayerState
+module.exports = PlayerState;

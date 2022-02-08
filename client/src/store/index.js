@@ -1,7 +1,6 @@
 import { createStore } from "vuex";
 
-const settings =
-  window.settings || require("../../public/settings").defaultValues;
+const settings = window.settings || require("../../../settings").defaultValues;
 
 export default createStore({
   state: {
