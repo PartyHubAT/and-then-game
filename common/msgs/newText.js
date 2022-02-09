@@ -10,8 +10,18 @@ class NewTextMsg extends Msg {
    */
   static TAG = "newText";
 
-  constructor() {
+  /**
+   * The texts genre
+   * @type {Genre}
+   */
+  genre;
+
+  /**
+   * @param {Genre} genre The texts genre
+   */
+  constructor(genre) {
     super(NewTextMsg.TAG);
+    this.genre = genre;
   }
 }
 

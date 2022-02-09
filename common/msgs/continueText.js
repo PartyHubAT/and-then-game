@@ -15,13 +15,20 @@ class ContinueTextMsg extends Msg {
    * @type {string}
    */
   lastLine;
+  /**
+   * The texts genre
+   * @type {Genre}
+   */
+  genre;
 
-  constructor(lastLine) {
   /**
    * @param {string} lastLine The last line that was written for this text
+   * @param {Genre} genre The texts genre
    */
+  constructor(lastLine, genre) {
     super(ContinueTextMsg.TAG);
     this.lastLine = lastLine;
+    this.genre = genre;
   }
 }
 

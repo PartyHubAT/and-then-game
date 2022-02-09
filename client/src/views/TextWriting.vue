@@ -59,8 +59,10 @@ export default {
   sockets: {
     /**
      * Handles the message for when the user should start writing a new text
+     * @param {NewTextMsg} msg The message
      */
-    [NewTextMsg.TAG]: function () {
+    [NewTextMsg.TAG]: function (msg) {
+      console.log(msg.genre);
       this.lastLine = "";
     },
 
@@ -69,6 +71,7 @@ export default {
      * @param {ContinueTextMsg} msg The message
      */
     [ContinueTextMsg.TAG]: function (msg) {
+      console.log(msg.genre);
       this.lastLine = msg.lastLine;
     },
 

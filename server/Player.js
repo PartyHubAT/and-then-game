@@ -48,14 +48,15 @@ class Player {
    * @param {PlayerInfo} info The info to create the player from
    * @param {number} textCount The number of texts for the player
    * @param {PlayerId} nextPlayerId The id of the player after this one
+   * @param {?Genre} genre The texts genre or null for random genres
    * @return {Player} The created player
    */
-  static makeNewFrom(info, textCount, nextPlayerId) {
+  static makeNewFrom(info, textCount, nextPlayerId, genre) {
     return new Player(
       info._id,
       info.name,
       nextPlayerId,
-      TextQueue.ofCount(textCount, info._id)
+      TextQueue.ofCount(textCount, info._id, genre)
     );
   }
 
@@ -100,12 +101,11 @@ class Player {
   }
 
   /**
-   * Tries to get the last line of the players current text
-   * @return {?string} The line or null if the player has no text or the text is on its first line
+   * Tries to get the players current text
+   * @return {?Text} The text or null if the player has none
    */
-  tryGetLastLineOfCurrentText() {
-    let text = this.#todoTexts.tryPeek();
-    return text ? text.lastLine : null;
+  tryGetCurrentText() {
+    return this.#todoTexts.tryPeek();
   }
 
   /**

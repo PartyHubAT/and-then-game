@@ -20,6 +20,10 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
   let totalTextsCount = settings.textsPerPlayer * playerInfo.length;
   let linesPerPlayer = settings.textsPerPlayer * settings.linesPerText;
   /**
+   * @type {?Genre}
+   */
+  let genre = settings.genre === "Random" ? null : settings.genre;
+  /**
    * The completed texts
    * @type {Text[]}
    */
@@ -32,7 +36,12 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
     playerInfo.map((info, index) => {
       let nextIndex = index === playerInfo.length - 1 ? 0 : index + 1;
       let nextPlayerId = playerInfo[nextIndex]._id;
-      return Player.makeNewFrom(info, settings.textsPerPlayer, nextPlayerId);
+      return Player.makeNewFrom(
+        info,
+        settings.textsPerPlayer,
+        nextPlayerId,
+        genre
+      );
     }),
     (player) => player.id
   );
@@ -60,10 +69,15 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
    */
   function sendNextLineMsgToPlayer(playerId) {
     let player = players.get(playerId);
-    let lastLine = player.tryGetLastLineOfCurrentText();
-    let msg = lastLine ? new ContinueTextMsg(lastLine) : new NewTextMsg();
-    sendMsg(playerId, msg);
-    player.state = PlayerState.WRITING;
+    let text = player.tryGetCurrentText();
+    if (text) {
+      let lastLine = text.lastLine;
+      let msg = lastLine
+        ? new ContinueTextMsg(lastLine, text.genre)
+        : new NewTextMsg(text.genre);
+      sendMsg(playerId, msg);
+      player.state = PlayerState.WRITING;
+    }
   }
 
   /**

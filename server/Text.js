@@ -12,13 +12,20 @@ class Text {
    * @type {PlayerId}
    */
   #lastPlayer;
+  /**
+   * The texts genre
+   * @type {Genre}
+   */
+  #genre;
 
   /**
    * @param {PlayerId} firstPlayer The id of the first player that will work on this text
+   * @param {Genre} genre The texts genre
    */
-  constructor(firstPlayer) {
+  constructor(firstPlayer, genre) {
     this.#lines = [];
     this.#lastPlayer = firstPlayer;
+    this.#genre = genre;
   }
 
   /**
@@ -27,6 +34,14 @@ class Text {
    */
   addLine(line) {
     this.#lines.push(line);
+  }
+
+  /**
+   * Gets the texts genre
+   * @return {Genre} The genre
+   */
+  get genre() {
+    return this.#genre;
   }
 
   /**
