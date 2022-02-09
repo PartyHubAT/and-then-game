@@ -16,6 +16,9 @@ class ResultsMsg extends Msg {
    */
   textLines;
 
+  /**
+   * @param {string[][]} textLines The lines of the written texts
+   */
   constructor(textLines) {
     super(ResultsMsg.TAG);
     this.textLines = textLines;

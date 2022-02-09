@@ -16,6 +16,9 @@ class LineDoneMsg extends Msg {
    */
   line;
 
+  /**
+   * @param {string} line The line that was written
+   */
   constructor(line) {
     super(LineDoneMsg.TAG);
     this.line = line;

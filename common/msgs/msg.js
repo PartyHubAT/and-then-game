@@ -8,6 +8,9 @@ class Msg {
    */
   tag;
 
+  /**
+   * @param {string} tag The messages tag
+   */
   constructor(tag) {
     this.tag = tag;
   }

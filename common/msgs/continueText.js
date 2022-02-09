@@ -17,6 +17,9 @@ class ContinueTextMsg extends Msg {
   lastLine;
 
   constructor(lastLine) {
+  /**
+   * @param {string} lastLine The last line that was written for this text
+   */
     super(ContinueTextMsg.TAG);
     this.lastLine = lastLine;
   }
