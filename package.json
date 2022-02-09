@@ -29,7 +29,6 @@
   "scripts": {
     "serve": "npm run serve --workspace=client",
     "build": "node build.js",
-    "build-dev": "npm run build-client && npm run build-server-dev && npm run copy",
     "build-client": "npm run build --workspace=client",
     "build-server-dev": "npm run build-dev --workspace=server",
     "copy": "cp info.js dist/ && cp settings.js dist/"
