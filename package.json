@@ -20,12 +20,18 @@
     "url": "git+https://github.com/PartyHubAT/game-and-then.git"
   },
   "devDependencies": {
+    "async": "^3.2.3",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-prettier": "^3.3.1",
     "prettier": "^2.2.1"
   },
   "scripts": {
-    "serve": "npm run serve --prefix ./client"
+    "serve": "npm run serve --workspace=client",
+    "build": "node build.js",
+    "build-dev": "npm run build-client && npm run build-server-dev && npm run copy",
+    "build-client": "npm run build --workspace=client",
+    "build-server-dev": "npm run build-dev --workspace=server",
+    "copy": "cp info.js dist/ && cp settings.js dist/"
   }
 }

@@ -1,3 +1,9 @@
 {
-  "name": "and-then-game-server"
+  "name": "and-then-game-server",
+  "devDependencies": {
+    "webpack-cli": "^4.9.2"
+  },
+  "scripts": {
+    "build-dev": "webpack --mode=development"
+  }
 }
