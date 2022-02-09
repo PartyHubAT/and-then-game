@@ -28,7 +28,7 @@
         "Dialog",
         "Recipe",
         "Song-text",
-        "Rap-beat",
+        "Rap-text",
       ],
     },
   },
