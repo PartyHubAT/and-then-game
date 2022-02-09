@@ -1,4 +1,4 @@
-﻿import Msg from "./msg";
+﻿const Msg = require("./msg");
 
 /**
  * Message for when the game starts

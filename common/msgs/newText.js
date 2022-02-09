@@ -1,4 +1,4 @@
-﻿import Msg from "./msg";
+﻿const Msg = require("./msg");
 
 /**
  * Message for when a player should start a new text
