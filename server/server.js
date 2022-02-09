@@ -1,6 +1,12 @@
 ﻿const Player = require("./Player");
 const PlayerState = require("./PlayerState");
 const CollectionUtil = require("./collectionUtil");
+const ContinueTextMsg = require("../common/msgs/continueText");
+const NewTextMsg = require("../common/msgs/newText");
+const StartMsg = require("../common/msgs/start");
+const RequestLineMsg = require("../common/msgs/requestLine");
+const LineDoneMsg = require("../common/msgs/lineDone");
+const ResultsMsg = require("../common/msgs/results");
 
 /**
  * @param {EmitToAll} emitToAll
@@ -32,25 +38,32 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
   );
 
   /**
-   * Sends a prompt to a specific player
+   * Sends a message to a specific player
    * @param {PlayerId} playerId The id of the player
-   * @param {Prompt} prompt The prompt to send
+   * @param {Msg} msg The message to send
    */
-  function sendPrompt(playerId, prompt) {
-    emitToOne(playerId, "receivePrompt", prompt);
+  function sendMsg(playerId, msg) {
+    emitToOne(playerId, msg.tag, msg);
   }
 
   /**
-   * Attempts to send the next prompt to a player
-   * @param {PlayerId} playerId The id of the player to send the prompt to
+   * Sends a message to all players
+   * @param {Msg} msg The message to send
    */
-  function trySendPlayerPrompt(playerId) {
+  function sendMsgToAll(msg) {
+    emitToAll(msg.tag, msg);
+  }
+
+  /**
+   * Sends a message to the player to either start a new text or continue the last one
+   * @param {PlayerId} playerId The id of the player to send the message to
+   */
+  function sendNextLineMsgToPlayer(playerId) {
     let player = players.get(playerId);
-    let prompt = player.tryGetNextPrompt();
-    if (prompt) {
-      sendPrompt(playerId, prompt);
-      player.state = PlayerState.WRITING;
-    }
+    let lastLine = player.tryGetLastLineOfCurrentText();
+    let msg = lastLine ? new ContinueTextMsg(lastLine) : new NewTextMsg();
+    sendMsg(playerId, msg);
+    player.state = PlayerState.WRITING;
   }
 
   /**
@@ -71,18 +84,15 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
     let player = players.get(playerId);
     player.addText(text);
 
-    if (player.state === PlayerState.WAITING) trySendPlayerPrompt(playerId);
+    if (player.state === PlayerState.WAITING) sendNextLineMsgToPlayer(playerId);
   }
 
   /**
    * Sends the games results to all players
    */
   function sendResults() {
-    /**
-     * @type {GameResults}
-     */
-    let results = { texts: doneTexts.map((it) => it.lines) };
-    emitToAll("gameDone", results);
+    let msg = new ResultsMsg(doneTexts.map((it) => it.lines));
+    sendMsgToAll(msg);
   }
 
   /**
@@ -115,29 +125,30 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
    */
   function continuePlayer(playerId) {
     let player = players.get(playerId);
-    if (player.hasText) trySendPlayerPrompt(playerId);
+    if (player.hasText) sendNextLineMsgToPlayer(playerId);
     else player.state = PlayerState.WAITING;
   }
 
   return {
     startGame() {
-      emitToAll("start", {});
+      sendMsgToAll(new StartMsg());
     },
     events: {
       /**
-       * Called when a player requests a new prompt
-       * @param {PlayerId} playerId The id of the player that requested a prompt
+       * Handles the message for when a player requests the next line
+       * @param {PlayerId} playerId The id of the player that send the message
        */
-      requestPrompt(playerId) {
-        trySendPlayerPrompt(playerId);
+      [RequestLineMsg.TAG]: function (playerId) {
+        sendNextLineMsgToPlayer(playerId);
       },
+
       /**
-       * Called when a player completes a line
+       * Handles the message for when a player completes a line
        * @param {PlayerId} playerId The id of the player that completed the line
-       * @param {LineDoneData} data Data about the completed line
+       * @param {LineDoneMsg} msg The message
        */
-      lineDone(playerId, data) {
-        continueText(playerId, data.line);
+      [LineDoneMsg.TAG]: function (playerId, msg) {
+        continueText(playerId, msg.line);
         continuePlayer(playerId);
       },
     },

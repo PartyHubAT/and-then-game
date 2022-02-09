@@ -40,14 +40,3 @@
  * @property {StartGame} startGame
  * @property {Object.<string, SocketEvent>} events
  */
-
-/**
- * @typedef {Object} GameData
- * @property {Text[]} texts
- * @property {boolean} waiting
- */
-
-/**
- * @typedef {Object} LineDoneData
- * @property {string} line
- */

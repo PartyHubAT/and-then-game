@@ -19,6 +19,12 @@
 import TextInput from "../components/TextInput";
 import WritingPrompt from "../components/WritingPrompt";
 import SendButton from "../components/SendButton";
+import LineDoneMsg from "../../../common/msgs/lineDone";
+import NewTextMsg from "../../../common/msgs/newText";
+import ContinueTextMsg from "../../../common/msgs/continueText";
+import ResultsMsg from "../../../common/msgs/results";
+import RequestLineMsg from "../../../common/msgs/requestLine";
+
 export default {
   name: "TextWriting",
   components: { SendButton, WritingPrompt, TextInput },
@@ -45,30 +51,39 @@ export default {
       this.text = "";
     },
     submitText() {
-      this.$socket.emit("lineDone", { line: this.text });
+      let msg = new LineDoneMsg(this.text);
+      this.$socket.emit(msg.tag, msg);
       this.reset();
     },
   },
   sockets: {
     /**
-     * Called when a prompt is received from the server
-     * @param {Prompt} prompt
+     * Handles the message for when the user should start writing a new text
      */
-    receivePrompt(prompt) {
-      this.lastLine = prompt.lastLine;
+    [NewTextMsg.TAG]: function () {
+      this.lastLine = "";
     },
+
     /**
-     * Called when the game ends
-     * @param {GameResults} results The games results
+     * Handles the message for when the user should continue an existing text
+     * @param {ContinueTextMsg} msg The message
      */
-    gameDone(results) {
-      const { texts } = results;
-      this.$store.dispatch("setResults", texts);
+    [ContinueTextMsg.TAG]: function (msg) {
+      this.lastLine = msg.lastLine;
+    },
+
+    /**
+     * Handles the message for when the games results are presented to the user
+     * @param {ResultsMsg} msg The message
+     */
+    [ResultsMsg.TAG]: function (msg) {
+      this.$store.dispatch("setResults", msg.textLines);
       this.$router.push("/results");
     },
   },
   mounted() {
-    this.$socket.emit("requestPrompt", {});
+    let msg = new RequestLineMsg();
+    this.$socket.emit(msg.tag, msg);
   },
 };
 </script>

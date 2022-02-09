@@ -55,10 +55,10 @@ class Text {
 
   /**
    * Gets the last line in the text
-   * @return {string} The last line or undefined if not found
+   * @return {?string} The last line or null if not found
    */
   get lastLine() {
-    return this.#lines[this.lineCount - 1] || "";
+    return this.#lines[this.lineCount - 1] || null;
   }
 
   /**
@@ -67,16 +67,6 @@ class Text {
    */
   get lines() {
     return this.#lines;
-  }
-
-  /**
-   * Makes a prompt for continuing this text
-   * @return {Prompt} The created prompt
-   */
-  makePrompt() {
-    return {
-      lastLine: this.lastLine,
-    };
   }
 }
 

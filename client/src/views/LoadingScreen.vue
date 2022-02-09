@@ -6,10 +6,15 @@
 </template>
 
 <script>
+import StartMsg from "../../../common/msgs/start";
+
 export default {
   name: "LoadingScreen",
   sockets: {
-    start() {
+    /**
+     * Handles the message for when the game starts
+     */
+    [StartMsg.TAG]: function () {
       this.$router.push("/write");
     },
   },

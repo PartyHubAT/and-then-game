@@ -100,12 +100,12 @@ class Player {
   }
 
   /**
-   * Tries to get the next prompt for this player
-   * @return {?Prompt} The next prompt or null if the player has no texts
+   * Tries to get the last line of the players current text
+   * @return {?string} The line or null if the player has no text or the text is on its first line
    */
-  tryGetNextPrompt() {
+  tryGetLastLineOfCurrentText() {
     let text = this.#todoTexts.tryPeek();
-    return text ? text.makePrompt() : null;
+    return text ? text.lastLine : null;
   }
 
   /**
