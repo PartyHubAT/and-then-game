@@ -9,12 +9,19 @@ export default {
       type: Boolean,
       required: true,
     },
+    genre: {
+      type: String,
+      required: true,
+    },
   },
   computed: {
     text() {
       return this.isFirstLine
-        ? "Start a new text ✍"
-        : "Continue the last-line 🤔";
+        ? `Start a new ${this.genreName} ✍`
+        : `Continue the ${this.genreName} 🤔`;
+    },
+    genreName() {
+      return this.genre.toLowerCase();
     },
   },
 };

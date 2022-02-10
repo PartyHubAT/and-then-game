@@ -2,7 +2,7 @@
   <div class="title">And then...</div>
   <div class="content">
     <div class="form" v-if="hasTask">
-      <writing-prompt :is-first-line="isFirstLine" />
+      <writing-prompt :is-first-line="isFirstLine" :genre="this.task.genre" />
       <div v-if="hasTask && !isFirstLine" class="lastLine">
         {{ task.lastLine }}
       </div>
@@ -51,7 +51,7 @@ export default {
      * @return {boolean} Whether it's the first line or not
      */
     isFirstLine() {
-      return this.task?.lastLine !== null ?? false;
+      return this.task?.lastLine === null ?? false;
     },
     /**
      * Checks whether the player has entered any text
