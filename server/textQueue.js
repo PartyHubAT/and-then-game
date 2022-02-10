@@ -1,4 +1,4 @@
-﻿const Text = require("./Text");
+﻿const Text = require("./text");
 const Genre = require("../common/genre");
 
 /**

@@ -1,4 +1,4 @@
-﻿const TextQueue = require("./TextQueue");
+﻿const TextQueue = require("./textQueue");
 
 /**
  * A user playing the game

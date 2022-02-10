@@ -1,5 +1,5 @@
-﻿const Player = require("./Player");
-const PlayerState = require("./PlayerState");
+﻿const Player = require("./player");
+const PlayerState = require("./playerState");
 const CollectionUtil = require("./collectionUtil");
 const ContinueTextMsg = require("../common/msgs/continueText");
 const NewTextMsg = require("../common/msgs/newText");
