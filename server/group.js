@@ -51,7 +51,7 @@ class Group {
    * @return {?Player} The player or null if not found
    */
   #tryGetPlayerByIndex(index) {
-    let indexIsValid = index > 0 && index < this.playerCount;
+    let indexIsValid = index >= 0 && index < this.playerCount;
     let id = indexIsValid ? this.#playerOrder[index] : null;
     return id ? this.tryGetPlayer(id) : null;
   }
