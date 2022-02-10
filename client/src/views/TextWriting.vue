@@ -1,10 +1,10 @@
 ﻿<template>
   <div class="title">And then...</div>
   <div class="content">
-    <div class="form" v-if="readyToWrite">
+    <div class="form" v-if="hasTask">
       <writing-prompt :is-first-line="isFirstLine" />
-      <div v-if="readyToWrite && !isFirstLine" class="lastLine">
-        {{ lastLine }}
+      <div v-if="hasTask && !isFirstLine" class="lastLine">
+        {{ task.lastLine }}
       </div>
       <div class="input-section">
         <text-input class="text-input" v-model="text" />
@@ -30,24 +30,40 @@ export default {
   components: { SendButton, WritingPrompt, TextInput },
   data() {
     return {
-      lastLine: null,
+      /**
+       * The task the player is currently working on. Null if the player has no task
+       * @type {?WritingTask}
+       */
+      task: null,
       text: "",
     };
   },
   computed: {
-    readyToWrite() {
-      return this.lastLine !== null;
+    /**
+     * Checks whether the player currently has a task
+     * @return {boolean} Whether they have a task
+     */
+    hasTask() {
+      return this.task !== null;
     },
+    /**
+     * Checks whether the player is writing the first line of the text or a continuation
+     * @return {boolean} Whether it's the first line or not
+     */
     isFirstLine() {
-      return this.readyToWrite && this.lastLine === "";
+      return this.task?.lastLine !== null ?? false;
     },
+    /**
+     * Checks whether the player has entered any text
+     * @return {boolean} Whether the player has entered any text
+     */
     hasEnteredText() {
       return this.text.length > 0;
     },
   },
   methods: {
     reset() {
-      this.lastLine = null;
+      this.task = null;
       this.text = "";
     },
     submitText() {
@@ -62,8 +78,10 @@ export default {
      * @param {NewTextMsg} msg The message
      */
     [NewTextMsg.TAG]: function (msg) {
-      console.log(msg.genre);
-      this.lastLine = "";
+      this.task = {
+        lastLine: null,
+        genre: msg.genre,
+      };
     },
 
     /**
@@ -71,8 +89,10 @@ export default {
      * @param {ContinueTextMsg} msg The message
      */
     [ContinueTextMsg.TAG]: function (msg) {
-      console.log(msg.genre);
-      this.lastLine = msg.lastLine;
+      this.task = {
+        lastLine: msg.lastLine,
+        genre: msg.genre,
+      };
     },
 
     /**
