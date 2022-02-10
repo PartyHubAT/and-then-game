@@ -24,6 +24,11 @@ class Player {
    * @type {PlayerState}
    */
   #state;
+  /**
+   * The number of lines the player has written in this game
+   * @type {number}
+   */
+  #writtenLineCount = 0;
 
   /**
    * @param {PlayerInfo} info The info to create the player from
@@ -59,6 +64,13 @@ class Player {
   }
 
   /**
+   * @return {number} The number of lines the player has written in this game
+   */
+  get writtenLineCount() {
+    return this.#writtenLineCount;
+  }
+
+  /**
    * Sets the players current state
    * @param{PlayerState} state The state
    */
@@ -79,7 +91,11 @@ class Player {
    * @return {?Text} The text or null if the player has none
    */
   tryPopTopText() {
-    return this.#todoTexts.tryPop();
+    const text = this.#todoTexts.tryPop();
+
+    if (text !== null) this.#writtenLineCount++;
+
+    return text;
   }
 
   /**

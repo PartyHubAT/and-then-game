@@ -9,6 +9,7 @@ const Text = require("./text");
 const Send = require("./send");
 const Group = require("./group");
 const Genre = require("../common/genre");
+const WaitForResultsMsg = require("../common/msgs/waitForResults");
 
 /**
  * @param {EmitToAll} emitToAll
@@ -22,6 +23,7 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
   let send = new Send(emitToOne, emitToAll);
 
   let totalTextsCount = settings.textsPerPlayer * playerInfo.length;
+  let linesPerPlayer = settings.textsPerPlayer * settings.linesPerText;
 
   /**
    * The completed texts
@@ -145,9 +147,6 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
         throw new Error(
           `Could not add line to missing text on player "${playerId}"!`
         );
-      if (completedTexts.length === totalTextsCount) {
-        sendResults();
-      }
     } else
       throw new Error(
         `Could not continue text on missing player "${playerId}"!`
@@ -162,7 +161,10 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
     let player = group.tryGetPlayer(playerId);
     if (player !== null) {
       if (player.hasText) sendNextLineMsgToPlayer(playerId);
-      else player.state = PlayerState.WAITING;
+      else if (player.writtenLineCount === linesPerPlayer) {
+        player.state = PlayerState.DONE;
+        send.to(playerId, new WaitForResultsMsg());
+      } else player.state = PlayerState.WAITING;
     } else throw new Error(`Could not continue missing player "${playerId}"!`);
   }
 
@@ -187,6 +189,9 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
       [LineDoneMsg.TAG]: function (playerId, msg) {
         continueText(playerId, msg.line);
         continuePlayer(playerId);
+        if (completedTexts.length === totalTextsCount) {
+          sendResults();
+        }
       },
     },
   };

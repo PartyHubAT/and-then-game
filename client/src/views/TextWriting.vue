@@ -1,7 +1,7 @@
 ﻿<template>
   <div class="title">And then...</div>
   <div class="content">
-    <div class="form" v-if="hasTask">
+    <div class="form" v-if="!isDone && hasTask">
       <writing-prompt :is-first-line="isFirstLine" :genre="this.task.genre" />
       <div v-if="hasTask && !isFirstLine" class="lastLine">
         {{ task.lastLine }}
@@ -11,7 +11,7 @@
         <send-button @click="submitText" :can-send="hasEnteredText" />
       </div>
     </div>
-    <span class="waitText" v-else>Waiting for next text. 😴</span>
+    <span class="waitText" v-else>{{ waitText }}</span>
   </div>
 </template>
 
@@ -24,6 +24,7 @@ import NewTextMsg from "../../../common/msgs/newText";
 import ContinueTextMsg from "../../../common/msgs/continueText";
 import ResultsMsg from "../../../common/msgs/results";
 import RequestLineMsg from "../../../common/msgs/requestLine";
+import WaitForResultsMsg from "../../../common/msgs/waitForResults";
 
 export default {
   name: "TextWriting",
@@ -36,6 +37,7 @@ export default {
        */
       task: null,
       text: "",
+      isDone: false,
     };
   },
   computed: {
@@ -59,6 +61,11 @@ export default {
      */
     hasEnteredText() {
       return this.text.length > 0;
+    },
+    waitText() {
+      return this.isDone
+        ? "You're done. Waiting for others. 🥳"
+        : "Waiting for next text. 😴";
     },
   },
   methods: {
@@ -93,6 +100,13 @@ export default {
         lastLine: msg.lastLine,
         genre: msg.genre,
       };
+    },
+
+    /**
+     * Handles the message for when the player should wait for results
+     */
+    [WaitForResultsMsg.TAG]: function () {
+      this.isDone = true;
     },
 
     /**
