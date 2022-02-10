@@ -15,11 +15,6 @@ class Player {
    */
   #name = "";
   /**
-   * The id of the player after this one
-   * @type {PlayerId}
-   */
-  #nextPlayerId;
-  /**
    * The texts the player needs to write
    * @type {TextQueue}
    */
@@ -33,13 +28,11 @@ class Player {
   /**
    * @param {PlayerId} id The players id
    * @param {string} name The players name
-   * @param {PlayerId} nextPlayerId The id of the player after this one
    * @param {TextQueue} todoTexts The texts the player needs to write
    */
-  constructor(id, name, nextPlayerId, todoTexts) {
+  constructor(id, name, todoTexts) {
     this.#id = id;
     this.#name = name;
-    this.#nextPlayerId = nextPlayerId;
     this.#todoTexts = todoTexts;
   }
 
@@ -47,15 +40,13 @@ class Player {
    * Makes a new player from the given info
    * @param {PlayerInfo} info The info to create the player from
    * @param {number} textCount The number of texts for the player
-   * @param {PlayerId} nextPlayerId The id of the player after this one
    * @param {?Genre} genre The texts genre or null for random genres
    * @return {Player} The created player
    */
-  static makeNewFrom(info, textCount, nextPlayerId, genre) {
+  static makeNewFrom(info, textCount, genre) {
     return new Player(
       info._id,
       info.name,
-      nextPlayerId,
       TextQueue.ofCount(textCount, info._id, genre)
     );
   }
@@ -66,14 +57,6 @@ class Player {
    */
   get id() {
     return this.#id;
-  }
-
-  /**
-   * Gets the id of the player after this one
-   * @return {PlayerId} The id
-   */
-  get nextPlayerId() {
-    return this.#nextPlayerId;
   }
 
   /**

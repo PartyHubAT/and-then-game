@@ -1,6 +1,4 @@
-﻿const Player = require("./player");
-const PlayerState = require("./playerState");
-const CollectionUtil = require("./collectionUtil");
+﻿const PlayerState = require("./playerState");
 const ContinueTextMsg = require("../common/msgs/continueText");
 const NewTextMsg = require("../common/msgs/newText");
 const StartMsg = require("../common/msgs/start");
@@ -8,6 +6,7 @@ const RequestLineMsg = require("../common/msgs/requestLine");
 const LineDoneMsg = require("../common/msgs/lineDone");
 const ResultsMsg = require("../common/msgs/results");
 const Send = require("./send");
+const Group = require("./group");
 
 /**
  * @param {EmitToAll} emitToAll
@@ -29,31 +28,19 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
    * The completed texts
    * @type {CompletedText[]}
    */
-  let completedTexts = [];
+  const completedTexts = [];
   /**
-   * The players in this game
-   * @type {Map<PlayerId,Player>}
+   * The group playing this game
+   * @type {Group}
    */
-  let players = CollectionUtil.arrayToMap(
-    playerInfo.map((info, index) => {
-      let nextIndex = index === playerInfo.length - 1 ? 0 : index + 1;
-      let nextPlayerId = playerInfo[nextIndex]._id;
-      return Player.makeNewFrom(
-        info,
-        settings.textsPerPlayer,
-        nextPlayerId,
-        genre
-      );
-    }),
-    (player) => player.id
-  );
+  const group = new Group(playerInfo, totalTextsCount, genre);
 
   /**
    * Sends a message to the player to either start a new text or continue the last one
    * @param {PlayerId} playerId The id of the player to send the message to
    */
   function sendNextLineMsgToPlayer(playerId) {
-    let player = players.get(playerId);
+    let player = group.tryGetPlayer(playerId);
     let text = player.tryGetCurrentText();
     if (text) {
       let lastLine = text.lastLine;
@@ -68,10 +55,10 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
   /**
    * Gets the next player that should write on a text
    * @param {Text} text The text that should be worked on
-   * @return {PlayerId} The id of the player that should work on the text next
+   * @return {?PlayerId} The id of the player that should work on the text next or null if not found
    */
-  function getNextPlayerForText(text) {
-    return players.get(text.lastPlayer).nextPlayerId;
+  function tryGetNextPlayerForText(text) {
+    return group.tryGetNextPlayer(text.lastPlayer)?.id ?? null;
   }
 
   /**
@@ -80,7 +67,7 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
    * @param {PlayerId} playerId The id of the player to add the text to
    */
   function addTextToPlayer(text, playerId) {
-    let player = players.get(playerId);
+    let player = group.tryGetPlayer(playerId);
     player.addText(text);
 
     if (player.state === PlayerState.WAITING) sendNextLineMsgToPlayer(playerId);
@@ -100,7 +87,7 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
    * @param {string} line The line to add to the text
    */
   function continueText(playerId, line) {
-    let player = players.get(playerId);
+    let player = group.tryGetPlayer(playerId);
     let text = player.tryPopTopText();
     if (text) {
       text.addLine(line);
@@ -111,7 +98,7 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
           lines: text.lines,
         });
       } else {
-        let nextPlayerId = getNextPlayerForText(text);
+        let nextPlayerId = tryGetNextPlayerForText(text);
         addTextToPlayer(text, nextPlayerId);
       }
     }
@@ -126,7 +113,7 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
    * @param {PlayerId} playerId The id of the player to continue
    */
   function continuePlayer(playerId) {
-    let player = players.get(playerId);
+    let player = group.tryGetPlayer(playerId);
     if (player.hasText) sendNextLineMsgToPlayer(playerId);
     else player.state = PlayerState.WAITING;
   }
