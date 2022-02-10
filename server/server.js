@@ -7,6 +7,7 @@ const StartMsg = require("../common/msgs/start");
 const RequestLineMsg = require("../common/msgs/requestLine");
 const LineDoneMsg = require("../common/msgs/lineDone");
 const ResultsMsg = require("../common/msgs/results");
+const Send = require("./send");
 
 /**
  * @param {EmitToAll} emitToAll
@@ -17,6 +18,8 @@ const ResultsMsg = require("../common/msgs/results");
  * @return {GameServer}
  */
 function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
+  let send = new Send(emitToOne, emitToAll);
+
   let totalTextsCount = settings.textsPerPlayer * playerInfo.length;
   /**
    * @type {?Genre}
@@ -46,23 +49,6 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
   );
 
   /**
-   * Sends a message to a specific player
-   * @param {PlayerId} playerId The id of the player
-   * @param {Msg} msg The message to send
-   */
-  function sendMsg(playerId, msg) {
-    emitToOne(playerId, msg.tag, msg);
-  }
-
-  /**
-   * Sends a message to all players
-   * @param {Msg} msg The message to send
-   */
-  function sendMsgToAll(msg) {
-    emitToAll(msg.tag, msg);
-  }
-
-  /**
    * Sends a message to the player to either start a new text or continue the last one
    * @param {PlayerId} playerId The id of the player to send the message to
    */
@@ -74,7 +60,7 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
       let msg = lastLine
         ? new ContinueTextMsg(lastLine, text.genre)
         : new NewTextMsg(text.genre);
-      sendMsg(playerId, msg);
+      send.to(playerId, msg);
       player.state = PlayerState.WRITING;
     }
   }
@@ -105,7 +91,7 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
    */
   function sendResults() {
     let msg = new ResultsMsg(completedTexts);
-    sendMsgToAll(msg);
+    send.toAll(msg);
   }
 
   /**
@@ -147,7 +133,7 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
 
   return {
     startGame() {
-      sendMsgToAll(new StartMsg());
+      send.toAll(new StartMsg());
     },
     events: {
       /**
