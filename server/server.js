@@ -18,16 +18,15 @@ const ResultsMsg = require("../common/msgs/results");
  */
 function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
   let totalTextsCount = settings.textsPerPlayer * playerInfo.length;
-  let linesPerPlayer = settings.textsPerPlayer * settings.linesPerText;
   /**
    * @type {?Genre}
    */
   let genre = settings.genre === "Random" ? null : settings.genre;
   /**
    * The completed texts
-   * @type {Text[]}
+   * @type {CompletedText[]}
    */
-  let doneTexts = [];
+  let completedTexts = [];
   /**
    * The players in this game
    * @type {Map<PlayerId,Player>}
@@ -105,7 +104,7 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
    * Sends the games results to all players
    */
   function sendResults() {
-    let msg = new ResultsMsg(doneTexts.map((it) => it.lines));
+    let msg = new ResultsMsg(completedTexts);
     sendMsgToAll(msg);
   }
 
@@ -121,14 +120,17 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
       text.addLine(line);
 
       if (text.lineCount === settings.linesPerText) {
-        doneTexts.push(text);
+        completedTexts.push({
+          genre: text.genre,
+          lines: text.lines,
+        });
       } else {
         let nextPlayerId = getNextPlayerForText(text);
         addTextToPlayer(text, nextPlayerId);
       }
     }
 
-    if (doneTexts.length === totalTextsCount) {
+    if (completedTexts.length === totalTextsCount) {
       sendResults();
     }
   }

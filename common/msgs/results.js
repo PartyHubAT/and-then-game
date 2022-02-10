@@ -11,17 +11,17 @@ class ResultsMsg extends Msg {
   static TAG = "results";
 
   /**
-   * The lines of the written texts
-   * @type {string[][]}
+   * The completed texts
+   * @type {CompletedText[]}
    */
-  textLines;
+  texts;
 
   /**
-   * @param {string[][]} textLines The lines of the written texts
+   * @param {CompletedText[]} texts The completed texts
    */
-  constructor(textLines) {
+  constructor(texts) {
     super(ResultsMsg.TAG);
-    this.textLines = textLines;
+    this.texts = texts;
   }
 }
 

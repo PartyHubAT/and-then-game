@@ -1,7 +1,7 @@
 ﻿<template>
   <div>
     <div v-for="result in results" :key="result.index">
-      Result {{ result.index + 1 }}
+      {{ result.title }}
       <div v-for="line in result.lines" :key="line">{{ line }}</div>
     </div>
   </div>
@@ -14,7 +14,8 @@ export default {
     results() {
       return this.$store.getters.results.map((result, i) => ({
         index: i,
-        lines: result,
+        title: result.genre,
+        lines: result.lines,
       }));
     },
   },

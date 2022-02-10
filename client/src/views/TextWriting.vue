@@ -100,7 +100,7 @@ export default {
      * @param {ResultsMsg} msg The message
      */
     [ResultsMsg.TAG]: function (msg) {
-      this.$store.dispatch("setResults", msg.textLines);
+      this.$store.dispatch("setResults", msg.texts);
       this.$router.push("/results");
     },
   },
