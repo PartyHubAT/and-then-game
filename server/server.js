@@ -41,15 +41,21 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
    */
   function sendNextLineMsgToPlayer(playerId) {
     let player = group.tryGetPlayer(playerId);
-    let text = player.tryGetCurrentText();
-    if (text) {
-      let lastLine = text.lastLine;
-      let msg = lastLine
-        ? new ContinueTextMsg(lastLine, text.genre)
-        : new NewTextMsg(text.genre);
-      send.to(playerId, msg);
-      player.state = PlayerState.WRITING;
-    }
+    if (player !== null) {
+      let text = player.tryGetCurrentText();
+      if (text !== null) {
+        let lastLine = text.lastLine;
+        let msg = lastLine
+          ? new ContinueTextMsg(lastLine, text.genre)
+          : new NewTextMsg(text.genre);
+        send.to(playerId, msg);
+        player.state = PlayerState.WRITING;
+      } else
+        throw new Error(
+          `Cannot send line-msg because player "${playerId}" had no text on them!`
+        );
+    } else
+      throw new Error(`Cannot send line-msg to missing player "${playerId}"!`);
   }
 
   /**
@@ -68,9 +74,12 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
    */
   function addTextToPlayer(text, playerId) {
     let player = group.tryGetPlayer(playerId);
-    player.addText(text);
 
-    if (player.state === PlayerState.WAITING) sendNextLineMsgToPlayer(playerId);
+    if (player !== null) {
+      player.addText(text);
+      if (player.state === PlayerState.WAITING)
+        sendNextLineMsgToPlayer(playerId);
+    } else throw new Error(`Cannot add text to missing player "${playerId}"!`);
   }
 
   /**
@@ -88,24 +97,32 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
    */
   function continueText(playerId, line) {
     let player = group.tryGetPlayer(playerId);
-    let text = player.tryPopTopText();
-    if (text) {
-      text.addLine(line);
 
-      if (text.lineCount === settings.linesPerText) {
-        completedTexts.push({
-          genre: text.genre,
-          lines: text.lines,
-        });
-      } else {
-        let nextPlayerId = tryGetNextPlayerForText(text);
-        addTextToPlayer(text, nextPlayerId);
+    if (player !== null) {
+      let text = player.tryPopTopText();
+      if (text) {
+        text.addLine(line);
+
+        if (text.lineCount === settings.linesPerText) {
+          completedTexts.push({
+            genre: text.genre,
+            lines: text.lines,
+          });
+        } else {
+          let nextPlayerId = tryGetNextPlayerForText(text);
+          addTextToPlayer(text, nextPlayerId);
+        }
+      } else
+        throw new Error(
+          `Could not add line to missing text on player "${playerId}"!`
+        );
+      if (completedTexts.length === totalTextsCount) {
+        sendResults();
       }
-    }
-
-    if (completedTexts.length === totalTextsCount) {
-      sendResults();
-    }
+    } else
+      throw new Error(
+        `Could not continue text on missing player "${playerId}"!`
+      );
   }
 
   /**
@@ -114,8 +131,10 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
    */
   function continuePlayer(playerId) {
     let player = group.tryGetPlayer(playerId);
-    if (player.hasText) sendNextLineMsgToPlayer(playerId);
-    else player.state = PlayerState.WAITING;
+    if (player !== null) {
+      if (player.hasText) sendNextLineMsgToPlayer(playerId);
+      else player.state = PlayerState.WAITING;
+    } else throw new Error(`Could not continue missing player "${playerId}"!`);
   }
 
   return {
