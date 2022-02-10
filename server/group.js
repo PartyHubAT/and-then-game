@@ -57,6 +57,15 @@ class Group {
   }
 
   /**
+   * Gets the next index
+   * @param {number} index The current index
+   * @return {number} The next index
+   */
+  #getNextIndex(index) {
+    return index === this.playerCount - 1 ? 0 : index + 1;
+  }
+
+  /**
    * Tries to get a player in this group by their id
    * @param {PlayerId} playerId The players id
    * @return {?Player} The player or null if not found
@@ -72,12 +81,8 @@ class Group {
    */
   tryGetNextPlayer(playerId) {
     let index = this.#tryGetPlayerIndex(playerId);
-    let nextIndex = index
-      ? index === this.playerCount - 1
-        ? 0
-        : index + 1
-      : null;
-    return nextIndex ? this.#tryGetPlayerByIndex(nextIndex) : null;
+    let nextIndex = index !== null ? this.#getNextIndex(index) : null;
+    return nextIndex !== null ? this.#tryGetPlayerByIndex(nextIndex) : null;
   }
 }
 
