@@ -26,29 +26,12 @@ class Player {
   #state;
 
   /**
-   * @param {PlayerId} id The players id
-   * @param {string} name The players name
-   * @param {TextQueue} todoTexts The texts the player needs to write
-   */
-  constructor(id, name, todoTexts) {
-    this.#id = id;
-    this.#name = name;
-    this.#todoTexts = todoTexts;
-  }
-
-  /**
-   * Makes a new player from the given info
    * @param {PlayerInfo} info The info to create the player from
-   * @param {number} textCount The number of texts for the player
-   * @param {?Genre} genre The texts genre or null for random genres
-   * @return {Player} The created player
    */
-  static makeNewFrom(info, textCount, genre) {
-    return new Player(
-      info._id,
-      info.name,
-      TextQueue.ofCount(textCount, info._id, genre)
-    );
+  constructor(info) {
+    this.#id = info._id;
+    this.#name = info.name;
+    this.#todoTexts = new TextQueue();
   }
 
   /**

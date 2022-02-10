@@ -18,12 +18,10 @@ class Group {
   /**
    * Creates a new group from player-info
    * @param {PlayerInfo[]} playerInfo Info about each player
-   * @param {number} textCount The number of texts for the player
-   * @param {?Genre} genre The texts genre or null for random genres
    */
-  constructor(playerInfo, textCount, genre) {
+  constructor(playerInfo) {
     playerInfo.forEach((it) => {
-      this.#playersById.set(it._id, Player.makeNewFrom(it, textCount, genre));
+      this.#playersById.set(it._id, new Player(it));
       this.#playerOrder.push(it._id);
     });
   }
@@ -33,6 +31,13 @@ class Group {
    */
   get playerCount() {
     return this.#playerOrder.length;
+  }
+
+  /**
+   * @return {Player[]} The groups players
+   */
+  get players() {
+    return Array.from(this.#playersById.values());
   }
 
   /**

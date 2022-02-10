@@ -1,7 +1,4 @@
-﻿const Text = require("./text");
-const Genre = require("../common/genre");
-
-/**
+﻿/**
  * A queue of texts a player needs to work on
  */
 class TextQueue {
@@ -11,39 +8,8 @@ class TextQueue {
    */
   #texts;
 
-  /**
-   * @param {Text[]} texts The texts in the queue
-   */
-  constructor(texts) {
-    this.#texts = texts;
-  }
-
-  /**
-   * Creates a new queue with the given amount of texts in it
-   * @param {number} count The number of texts
-   * @param {PlayerId} playerId The id of the player this queue belongs to
-   * @param {?Genre} genre The texts genre or null for random genres
-   * @return {TextQueue} The created queue
-   */
-  static ofCount(count, playerId, genre) {
-    /**
-     * All genres in an array
-     * @type {Genre[]}
-     */
-    let genres = Object.keys(Genre).map((key) => Genre[key]);
-
-    /**
-     * Gets a random genre
-     * @return {Genre} A random genre
-     */
-    const randomGenre = () => genres[Math.floor(Math.random() * genres.length)];
-
-    return new TextQueue(
-      Array.from(
-        { length: count },
-        () => new Text(playerId, genre ?? randomGenre())
-      )
-    );
+  constructor() {
+    this.#texts = [];
   }
 
   /**

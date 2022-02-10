@@ -5,8 +5,10 @@ const StartMsg = require("../common/msgs/start");
 const RequestLineMsg = require("../common/msgs/requestLine");
 const LineDoneMsg = require("../common/msgs/lineDone");
 const ResultsMsg = require("../common/msgs/results");
+const Text = require("./text");
 const Send = require("./send");
 const Group = require("./group");
+const Genre = require("../common/genre");
 
 /**
  * @param {EmitToAll} emitToAll
@@ -20,10 +22,7 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
   let send = new Send(emitToOne, emitToAll);
 
   let totalTextsCount = settings.textsPerPlayer * playerInfo.length;
-  /**
-   * @type {?Genre}
-   */
-  let genre = settings.genre === "Random" ? null : settings.genre;
+
   /**
    * The completed texts
    * @type {CompletedText[]}
@@ -33,7 +32,37 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
    * The group playing this game
    * @type {Group}
    */
-  const group = new Group(playerInfo, totalTextsCount, genre);
+  const group = new Group(playerInfo);
+
+  /**
+   * Initializes the games texts
+   */
+  (function createTexts() {
+    /**
+     * @type {?Genre}
+     */
+    const genre = settings.genre === "Random" ? null : settings.genre;
+    /**
+     * All existing  genres
+     * @type {Genre[]}
+     */
+    const allGenres = Object.keys(Genre).map((it) => Genre[it]);
+
+    /**
+     * Gets a random genre
+     * @return {Genre} A random genre
+     */
+    function getRandomGenre() {
+      return allGenres[Math.floor(Math.random() * allGenres.length)];
+    }
+
+    group.players.forEach((player) => {
+      for (let i = 0; i < settings.textsPerPlayer; i++) {
+        let text = new Text(player.id, genre ?? getRandomGenre());
+        player.addText(text);
+      }
+    });
+  })();
 
   /**
    * Sends a message to the player to either start a new text or continue the last one
