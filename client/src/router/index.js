@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import LoadingScreen from "../views/LoadingScreen.vue";
-import TextWriting from "../views/TextWriting.vue";
+import Writing from "../views/Writing.vue";
 import Results from "../views/Results.vue";
 
 const routes = [
@@ -11,8 +11,8 @@ const routes = [
   },
   {
     path: "/write",
-    name: "TextWriting",
-    component: TextWriting,
+    name: "Writing",
+    component: Writing,
   },
   {
     path: "/results",

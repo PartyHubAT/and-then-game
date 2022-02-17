@@ -27,7 +27,7 @@ import RequestLineMsg from "../../../common/msgs/requestLine";
 import WaitForResultsMsg from "../../../common/msgs/waitForResults";
 
 export default {
-  name: "TextWriting",
+  name: "Writing",
   components: { SendButton, WritingPrompt, TextInput },
   data() {
     return {
