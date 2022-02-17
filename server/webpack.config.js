@@ -5,6 +5,9 @@ module.exports = {
   output: {
     filename: "server.js",
     path: path.resolve(__dirname, "../dist"),
+    library: {
+      type: "commonjs2",
+    },
   },
   module: {
     rules: [
