@@ -20,6 +20,8 @@
       type: "Select",
       displayName: "Genre",
       label: "What genre should the texts be",
+      multiple: false,
+      required: true,
       options: [
         "Random",
         "Horror-story",
