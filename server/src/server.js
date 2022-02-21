@@ -5,11 +5,12 @@ const Group = require("./group");
 const Genre = require("game-and-then-common/src/genre");
 const ContinueTextMsg = require("game-and-then-common/src/msgs/continueText");
 const NewTextMsg = require("game-and-then-common/src/msgs/newText");
-const ResultsMsg = require("game-and-then-common/src/msgs/results");
+const ResultMsg = require("game-and-then-common/src/msgs/result");
 const WaitForResultsMsg = require("game-and-then-common/src/msgs/waitForResults");
 const StartMsg = require("game-and-then-common/src/msgs/start");
 const RequestLineMsg = require("game-and-then-common/src/msgs/requestLine");
 const LineDoneMsg = require("game-and-then-common/src/msgs/lineDone");
+const NextResultMsg = require("game-and-then-common/src/msgs/nextResult");
 
 /**
  * @param {EmitToAll} emitToAll
@@ -24,6 +25,7 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
 
   let totalTextsCount = settings.textsPerPlayer * playerInfo.length;
   let linesPerPlayer = settings.textsPerPlayer * settings.linesPerText;
+  let resultIndex = 0;
 
   /**
    * The completed texts
@@ -116,8 +118,8 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
   /**
    * Sends the games results to all players
    */
-  function sendResults() {
-    let msg = new ResultsMsg(completedTexts);
+  function sendLatestResult() {
+    let msg = new ResultMsg(completedTexts[resultIndex]);
     send.toAll(msg);
   }
 
@@ -190,8 +192,16 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
         continueText(playerId, msg.line);
         continuePlayer(playerId);
         if (completedTexts.length === totalTextsCount) {
-          sendResults();
+          sendLatestResult();
         }
+      },
+
+      /**
+       * Handles the message for when a requests the next result
+       */
+      [NextResultMsg.TAG]: function () {
+        resultIndex++;
+        sendLatestResult();
       },
     },
   };

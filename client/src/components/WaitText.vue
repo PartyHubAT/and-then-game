@@ -1,31 +1,10 @@
 ﻿<template>
-  <span class="waitText"> {{ waitText }}</span>
+  <span class="waitText">Wait for next text. 😴</span>
 </template>
 
 <script>
-import WaitReason from "../types/WaitReason";
-
 export default {
   name: "WaitText",
-  props: {
-    reason: {
-      type: Number,
-      validator: (it) => WaitReason[it] !== undefined,
-      required: true,
-    },
-  },
-  computed: {
-    waitText() {
-      switch (this.reason) {
-        case WaitReason.NO_TASK:
-          return "Waiting for next text. 😴";
-        case WaitReason.DONE:
-          return "You're done. Waiting for the others. 🥳";
-        default:
-          throw new Error(`Invalid reason: ${this.reason}`);
-      }
-    },
-  },
 };
 </script>
 

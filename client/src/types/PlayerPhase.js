@@ -7,7 +7,6 @@
 
 /**
  * @typedef {PlayerPhase} WaitPhase
- * @property {WaitReason} reason
  */
 
 /**
@@ -17,11 +16,10 @@
 
 module.exports = {
   /**
-   * @param {WaitReason} reason
    * @returns {PlayerPhase}
    */
-  wait(reason) {
-    return { type: PlayerPhaseType.Wait, reason };
+  wait() {
+    return { type: PlayerPhaseType.Wait };
   },
 
   /**
