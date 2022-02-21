@@ -1,6 +1,7 @@
 ﻿/**
  * Message for when the game starts
  * @typedef {Msg} StartMsg
+ * @property {boolean} playerIsHost Whether the player that received this message is host
  */
 
 module.exports = {
@@ -10,11 +11,13 @@ module.exports = {
   TAG: "start",
   /**
    * Makes a message of this type
+   * @param {boolean} playerIsHost Whether the player that received this message is host
    * @returns {StartMsg} The created msg
    */
-  make() {
+  make(playerIsHost) {
     return {
       tag: this.TAG,
+      playerIsHost,
     };
   },
 };

@@ -13,8 +13,10 @@ export default {
   sockets: {
     /**
      * Handles the message for when the game starts
+     * @param {StartMsg} msg The message
      */
-    [StartMsg.TAG]: function () {
+    [StartMsg.TAG]: function (msg) {
+      this.$store.dispatch("setPlayerIsHost", msg.playerIsHost);
       this.$router.push("/game");
     },
   },

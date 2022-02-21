@@ -172,7 +172,10 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
 
   return {
     startGame() {
-      send.toAll(StartMsg.make());
+      group.players.forEach((player) => {
+        let isHost = group.playerIsHost(player.id);
+        send.to(player.id, StartMsg.make(isHost));
+      });
     },
     events: {
       /**

@@ -89,6 +89,15 @@ class Group {
     let nextIndex = index !== null ? this.#getNextIndex(index) : null;
     return nextIndex !== null ? this.#tryGetPlayerByIndex(nextIndex) : null;
   }
+
+  /**
+   * Checks whether a player is host or not
+   * @param {PlayerId} playerId The players id
+   * @returns {boolean} Whether the player is host
+   */
+  playerIsHost(playerId) {
+    return this.#tryGetPlayerIndex(playerId) === 0;
+  }
 }
 
 module.exports = Group;
