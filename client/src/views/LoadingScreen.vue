@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import StartMsg from "../../../common/msgs/start";
+import StartMsg from "../../../common/src/msgs/start";
 
 export default {
   name: "LoadingScreen",

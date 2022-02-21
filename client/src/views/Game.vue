@@ -7,11 +7,11 @@
 </template>
 
 <script>
-import NewTextMsg from "../../../common/msgs/newText";
-import ContinueTextMsg from "../../../common/msgs/continueText";
-import ResultsMsg from "../../../common/msgs/results";
-import RequestLineMsg from "../../../common/msgs/requestLine";
-import WaitForResultsMsg from "../../../common/msgs/waitForResults";
+import NewTextMsg from "../../../common/src/msgs/newText";
+import ContinueTextMsg from "../../../common/src/msgs/continueText";
+import ResultsMsg from "../../../common/src/msgs/results";
+import RequestLineMsg from "../../../common/src/msgs/requestLine";
+import WaitForResultsMsg from "../../../common/src/msgs/waitForResults";
 import * as PlayerPhase from "../types/PlayerPhase";
 import * as WriteTask from "../types/WriteTask";
 import WaitReason from "../types/WaitReason";

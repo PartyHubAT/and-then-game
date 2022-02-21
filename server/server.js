@@ -1,15 +1,15 @@
 ﻿const PlayerState = require("./playerState");
-const ContinueTextMsg = require("../common/msgs/continueText");
-const NewTextMsg = require("../common/msgs/newText");
-const StartMsg = require("../common/msgs/start");
-const RequestLineMsg = require("../common/msgs/requestLine");
-const LineDoneMsg = require("../common/msgs/lineDone");
-const ResultsMsg = require("../common/msgs/results");
+const ContinueTextMsg = require("../common/src/msgs/continueText");
+const NewTextMsg = require("../common/src/msgs/newText");
+const StartMsg = require("../common/src/msgs/start");
+const RequestLineMsg = require("../common/src/msgs/requestLine");
+const LineDoneMsg = require("../common/src/msgs/lineDone");
+const ResultsMsg = require("../common/src/msgs/results");
 const Text = require("./text");
 const Send = require("./send");
 const Group = require("./group");
-const Genre = require("../common/genre");
-const WaitForResultsMsg = require("../common/msgs/waitForResults");
+const Genre = require("../common/src/genre");
+const WaitForResultsMsg = require("../common/src/msgs/waitForResults");
 
 /**
  * @param {EmitToAll} emitToAll
