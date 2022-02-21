@@ -1,10 +1,7 @@
 import { createStore } from "vuex";
 
-const settings = window.settings || require("../../../settings").defaultValues;
-
 /**
  * @typedef {Object} AppState
- * @property {Settings} settings
  * @property {CompletedText[]} results
  */
 
@@ -13,7 +10,6 @@ const settings = window.settings || require("../../../settings").defaultValues;
  */
 const store = createStore({
   state: {
-    settings: settings,
     /**
      * @type {CompletedText[]} The completed texts
      */
