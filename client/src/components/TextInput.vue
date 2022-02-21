@@ -4,6 +4,7 @@
     maxlength="128"
     :value="modelValue"
     @input="$emit('update:modelValue', $event.target.value)"
+    @keydown.enter.prevent
     placeholder="Enter the first line..."
   />
 </template>
