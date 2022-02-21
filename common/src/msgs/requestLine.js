@@ -1,18 +1,20 @@
-﻿const Msg = require("./msg");
-
-/**
+﻿/**
  * Message for when a player requests the next text to write on
+ * @typedef {Msg} RequestLineMsg
  */
-class RequestLineMsg extends Msg {
+
+module.exports = {
   /**
-   * The tag that identifies messages of this type
-   * @type {string}
+   * @type {msgTag} The tag for this type of message
    */
-  static TAG = "requestLine";
-
-  constructor() {
-    super(RequestLineMsg.TAG);
-  }
-}
-
-module.exports = RequestLineMsg;
+  TAG: "requestLine",
+  /**
+   * Makes a message of this type
+   * @returns {RequestLineMsg} The created msg
+   */
+  make() {
+    return {
+      tag: this.TAG,
+    };
+  },
+};

@@ -1,15 +1,20 @@
-﻿const Msg = require("./msg");
+﻿/**
+ * Message for when the next result should be sent to players
+ * @typedef {Msg} NextResultMsg
+ */
 
-class NextResultMsg extends Msg {
+module.exports = {
   /**
-   * The tag that identifies messages of this type
-   * @type {string}
+   * @type {msgTag} The tag for this type of message
    */
-  static TAG = "nextResult";
-
-  constructor() {
-    super(NextResultMsg.TAG);
-  }
-}
-
-module.exports = NextResultMsg;
+  TAG: "nextResult",
+  /**
+   * Makes a message of this type
+   * @returns {NextResultMsg} The created msg
+   */
+  make() {
+    return {
+      tag: this.TAG,
+    };
+  },
+};

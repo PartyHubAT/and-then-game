@@ -1,28 +1,23 @@
-﻿const Msg = require("./msg");
-
-/**
+﻿/**
  * Message for when a player should start a new text
+ * @typedef {Msg} NewTextMsg
+ * @property {Genre} genre The texts genre
  */
-class NewTextMsg extends Msg {
-  /**
-   * The tag that identifies messages of this type
-   * @type {string}
-   */
-  static TAG = "newText";
 
+module.exports = {
   /**
-   * The texts genre
-   * @type {Genre}
+   * @type {msgTag} The tag for this type of message
    */
-  genre;
-
+  TAG: "newText",
   /**
+   * Makes a message of this type
    * @param {Genre} genre The texts genre
+   * @returns {NewTextMsg} The created msg
    */
-  constructor(genre) {
-    super(NewTextMsg.TAG);
-    this.genre = genre;
-  }
-}
-
-module.exports = NewTextMsg;
+  make(genre) {
+    return {
+      tag: this.TAG,
+      genre,
+    };
+  },
+};

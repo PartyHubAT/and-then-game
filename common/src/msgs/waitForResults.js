@@ -1,18 +1,20 @@
-﻿const Msg = require("./msg");
-
-/**
+﻿/**
  * Message for when the player should wait for results
+ * @typedef {Msg} WaitForResultsMsg
  */
-class WaitForResultsMsg extends Msg {
+
+module.exports = {
   /**
-   * The tag that identifies messages of this type
-   * @type {string}
+   * @type {msgTag} The tag for this type of message
    */
-  static TAG = "waitForResults";
-
-  constructor() {
-    super(WaitForResultsMsg.TAG);
-  }
-}
-
-module.exports = WaitForResultsMsg;
+  TAG: "waitForResults",
+  /**
+   * Makes a message of this type
+   * @returns {WaitForResultsMsg} The created msg
+   */
+  make() {
+    return {
+      tag: this.TAG,
+    };
+  },
+};

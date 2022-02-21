@@ -79,8 +79,8 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
       if (text !== null) {
         let lastLine = text.lastLine;
         let msg = lastLine
-          ? new ContinueTextMsg(lastLine, text.genre)
-          : new NewTextMsg(text.genre);
+          ? ContinueTextMsg.make(lastLine, text.genre)
+          : NewTextMsg.make(text.genre);
         send.to(playerId, msg);
         player.state = PlayerState.WRITING;
       } else
@@ -119,7 +119,7 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
    * Sends the games results to all players
    */
   function sendLatestResult() {
-    let msg = new ResultMsg(completedTexts[resultIndex]);
+    let msg = ResultMsg.make(completedTexts[resultIndex]);
     send.toAll(msg);
   }
 
@@ -165,14 +165,14 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
       if (player.hasText) sendNextLineMsgToPlayer(playerId);
       else if (player.writtenLineCount === linesPerPlayer) {
         player.state = PlayerState.DONE;
-        send.to(playerId, new WaitForResultsMsg());
+        send.to(playerId, WaitForResultsMsg.make());
       } else player.state = PlayerState.WAITING;
     } else throw new Error(`Could not continue missing player "${playerId}"!`);
   }
 
   return {
     startGame() {
-      send.toAll(new StartMsg());
+      send.toAll(StartMsg.make());
     },
     events: {
       /**

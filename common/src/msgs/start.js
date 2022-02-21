@@ -1,18 +1,20 @@
-﻿const Msg = require("./msg");
-
-/**
+﻿/**
  * Message for when the game starts
+ * @typedef {Msg} StartMsg
  */
-class StartMsg extends Msg {
+
+module.exports = {
   /**
-   * The tag that identifies messages of this type
-   * @type {string}
+   * @type {msgTag} The tag for this type of message
    */
-  static TAG = "start";
-
-  constructor() {
-    super(StartMsg.TAG);
-  }
-}
-
-module.exports = StartMsg;
+  TAG: "start",
+  /**
+   * Makes a message of this type
+   * @returns {StartMsg} The created msg
+   */
+  make() {
+    return {
+      tag: this.TAG,
+    };
+  },
+};

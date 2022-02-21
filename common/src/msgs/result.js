@@ -1,28 +1,23 @@
-﻿const Msg = require("./msg");
-
-/**
+﻿/**
  * Message for when a result should be displayed to the players
+ * @typedef {Msg} ResultMsg
+ * @property {CompletedText} text The result to show
  */
-class ResultMsg extends Msg {
-  /**
-   * The tag that identifies messages of this type
-   * @type {string}
-   */
-  static TAG = "result";
 
+module.exports = {
   /**
-   * The result to show
-   * @type {CompletedText}
+   * @type {msgTag} The tag for this type of message
    */
-  text;
-
+  TAG: "result",
   /**
+   * Makes a message of this type
    * @param {CompletedText} text The result to show
+   * @returns {RequestLineMsg} The created msg
    */
-  constructor(text) {
-    super(ResultMsg.TAG);
-    this.text = text;
-  }
-}
-
-module.exports = ResultMsg;
+  make(text) {
+    return {
+      tag: this.TAG,
+      text,
+    };
+  },
+};

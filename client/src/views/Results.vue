@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import ResultsMsg from "game-and-then-common/src/msgs/result";
-import NextResultMsg from "game-and-then-common/src/msgs/nextResult";
+import * as ResultsMsg from "game-and-then-common/src/msgs/result";
+import * as NextResultMsg from "game-and-then-common/src/msgs/nextResult";
 
 export default {
   name: "Results",
@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     requestNextResult() {
-      this.$socket.emit(NextResultMsg.TAG, new NextResultMsg());
+      this.$socket.emit(NextResultMsg.TAG, NextResultMsg.make());
     },
   },
 };

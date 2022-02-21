@@ -20,7 +20,7 @@
 import WritingPrompt from "./WritingPrompt";
 import TextInput from "./TextInput";
 import SendButton from "./SendButton";
-import LineDoneMsg from "game-and-then-common/src/msgs/lineDone";
+import * as LineDoneMsg from "game-and-then-common/src/msgs/lineDone";
 export default {
   name: "WriteForm",
   components: { SendButton, TextInput, WritingPrompt },
@@ -55,7 +55,7 @@ export default {
   methods: {
     trySubmitText() {
       if (this.hasEnteredText) {
-        let msg = new LineDoneMsg(this.text);
+        let msg = LineDoneMsg.make(this.text);
         this.$socket.emit(msg.tag, msg);
         this.text = "";
         this.$emit("submitText");

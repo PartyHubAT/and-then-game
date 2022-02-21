@@ -12,10 +12,10 @@ import * as WriteTask from "../types/WriteTask";
 import WaitText from "../components/WaitText";
 import WriteForm from "../components/WriteForm";
 import PlayerPhaseType from "../types/PlayerPhaseType";
-import NewTextMsg from "game-and-then-common/src/msgs/newText";
-import ContinueTextMsg from "game-and-then-common/src/msgs/continueText";
-import WaitForResultsMsg from "game-and-then-common/src/msgs/waitForResults";
-import RequestLineMsg from "game-and-then-common/src/msgs/requestLine";
+import * as NewTextMsg from "game-and-then-common/src/msgs/newText";
+import * as ContinueTextMsg from "game-and-then-common/src/msgs/continueText";
+import * as WaitForResultsMsg from "game-and-then-common/src/msgs/waitForResults";
+import * as RequestLineMsg from "game-and-then-common/src/msgs/requestLine";
 
 export default {
   name: "Game",
@@ -83,7 +83,7 @@ export default {
     },
   },
   mounted() {
-    let msg = new RequestLineMsg();
+    let msg = RequestLineMsg.make();
     this.$socket.emit(msg.tag, msg);
   },
 };

@@ -1,35 +1,26 @@
-﻿const Msg = require("./msg");
-
-/**
+﻿/**
  * Message for when a player should add a new line to an existing text
+ * @typedef {Msg} ContinueTextMsg
+ * @property {string} lastLine The last line that was written for this text
+ * @property {Genre} genre The texts genre
  */
-class ContinueTextMsg extends Msg {
-  /**
-   * The tag that identifies messages of this type
-   * @type {string}
-   */
-  static TAG = "continueText";
 
+module.exports = {
   /**
-   * The last line that was written for this text
-   * @type {string}
+   * @type {msgTag} The tag for this type of message
    */
-  lastLine;
+  TAG: "continueText",
   /**
-   * The texts genre
-   * @type {Genre}
-   */
-  genre;
-
-  /**
+   * Makes a message of this type
    * @param {string} lastLine The last line that was written for this text
    * @param {Genre} genre The texts genre
+   * @returns {ContinueTextMsg} The created msg
    */
-  constructor(lastLine, genre) {
-    super(ContinueTextMsg.TAG);
-    this.lastLine = lastLine;
-    this.genre = genre;
-  }
-}
-
-module.exports = ContinueTextMsg;
+  make(lastLine, genre) {
+    return {
+      tag: this.TAG,
+      lastLine,
+      genre,
+    };
+  },
+};

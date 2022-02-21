@@ -1,28 +1,23 @@
-﻿const Msg = require("./msg");
-
-/**
+﻿/**
  * Message for when a player has completed a line
+ * @typedef {Msg} LineDoneMsg
+ * @property {string} line The line that was written
  */
-class LineDoneMsg extends Msg {
-  /**
-   * The tag that identifies messages of this type
-   * @type {string}
-   */
-  static TAG = "lineDone";
 
+module.exports = {
   /**
-   * The line that was written
-   * @type {string}
+   * @type {msgTag} The tag for this type of message
    */
-  line;
-
+  TAG: "lineDone",
   /**
+   * Makes a message of this type
    * @param {string} line The line that was written
+   * @returns {LineDoneMsg} The created msg
    */
-  constructor(line) {
-    super(LineDoneMsg.TAG);
-    this.line = line;
-  }
-}
-
-module.exports = LineDoneMsg;
+  make(line) {
+    return {
+      tag: this.TAG,
+      line,
+    };
+  },
+};

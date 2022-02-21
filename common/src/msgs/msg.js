@@ -1,19 +1,10 @@
 ﻿/**
- * Base-class for all messages that are sent between client and server
+ * A tag that identifies a message
+ * @typedef {string} msgTag
  */
-class Msg {
-  /**
-   * The messages tag
-   * @type {string}
-   */
-  tag;
 
-  /**
-   * @param {string} tag The messages tag
-   */
-  constructor(tag) {
-    this.tag = tag;
-  }
-}
-
-module.exports = Msg;
+/**
+ * Base-class for all messages that are sent between client and server
+ * @typedef {Object} Msg
+ * @property {msgTag} tag The tag that identifies this type of message
+ */
