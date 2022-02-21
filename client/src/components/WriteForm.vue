@@ -5,8 +5,12 @@
       {{ task.lastLine }}
     </span>
     <div class="input-section">
-      <text-input class="text-input" v-model="text" />
-      <send-button @click="submitText" :can-send="hasEnteredText" />
+      <text-input
+        class="text-input"
+        v-model="text"
+        @submitText="trySubmitText"
+      />
+      <send-button @click="trySubmitText" :can-send="hasEnteredText" />
     </div>
   </div>
 </template>
@@ -49,11 +53,13 @@ export default {
     },
   },
   methods: {
-    submitText() {
-      let msg = new LineDoneMsg(this.text);
-      this.$socket.emit(msg.tag, msg);
-      this.text = "";
-      this.$emit("submitText");
+    trySubmitText() {
+      if (this.hasEnteredText) {
+        let msg = new LineDoneMsg(this.text);
+        this.$socket.emit(msg.tag, msg);
+        this.text = "";
+        this.$emit("submitText");
+      }
     },
   },
   emits: ["submitText"],

@@ -4,7 +4,7 @@
     maxlength="128"
     :value="modelValue"
     @input="$emit('update:modelValue', $event.target.value)"
-    @keydown.enter.prevent
+    @keydown.enter.prevent="$emit('submitText')"
     placeholder="Enter the first line..."
   />
 </template>
@@ -15,7 +15,7 @@ export default {
   props: {
     modelValue: String,
   },
-  emits: ["update:modelValue"],
+  emits: ["update:modelValue", "submitText"],
 };
 </script>
 
