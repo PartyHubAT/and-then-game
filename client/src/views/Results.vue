@@ -4,7 +4,7 @@
       {{ latestResult.title }}
       <div v-for="line in latestResult.lines" :key="line">{{ line }}</div>
     </div>
-    <button @click="requestNextResult">Next</button>
+    <button v-if="!canPressNext" @click="requestNextResult">Next</button>
   </div>
   <span v-else>You're done. Wait for others 🥳</span>
 </template>
@@ -26,6 +26,9 @@ export default {
   computed: {
     hasResult() {
       return this.latestResult !== null;
+    },
+    canPressNext() {
+      return this.$store.getters.playerIsHost;
     },
   },
   sockets: {

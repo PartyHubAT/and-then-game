@@ -201,10 +201,13 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
 
       /**
        * Handles the message for when a requests the next result
+       * @param {PlayerId} playerId The id of the player that requested the result
        */
-      [NextResultMsg.TAG]: function () {
-        resultIndex++;
-        sendLatestResult();
+      [NextResultMsg.TAG]: function (playerId) {
+        if (group.playerIsHost(playerId)) {
+          resultIndex++;
+          sendLatestResult();
+        }
       },
     },
   };
