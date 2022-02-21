@@ -1,15 +1,15 @@
 ﻿const PlayerState = require("./playerState");
-const ContinueTextMsg = require("../common/src/msgs/continueText");
-const NewTextMsg = require("../common/src/msgs/newText");
-const StartMsg = require("../common/src/msgs/start");
-const RequestLineMsg = require("../common/src/msgs/requestLine");
-const LineDoneMsg = require("../common/src/msgs/lineDone");
-const ResultsMsg = require("../common/src/msgs/results");
 const Text = require("./text");
 const Send = require("./send");
 const Group = require("./group");
-const Genre = require("../common/src/genre");
-const WaitForResultsMsg = require("../common/src/msgs/waitForResults");
+const Genre = require("game-and-then-common/src/genre");
+const ContinueTextMsg = require("game-and-then-common/src/msgs/continueText");
+const NewTextMsg = require("game-and-then-common/src/msgs/newText");
+const ResultsMsg = require("game-and-then-common/src/msgs/results");
+const WaitForResultsMsg = require("game-and-then-common/src/msgs/waitForResults");
+const StartMsg = require("game-and-then-common/src/msgs/start");
+const RequestLineMsg = require("game-and-then-common/src/msgs/requestLine");
+const LineDoneMsg = require("game-and-then-common/src/msgs/lineDone");
 
 /**
  * @param {EmitToAll} emitToAll

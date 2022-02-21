@@ -4,7 +4,8 @@
   "description": "A party game about completing each others stories",
   "workspaces": [
     "client",
-    "server"
+    "server",
+    "common"
   ],
   "homepage": "https://github.com/PartyHubAT/game-and-then#readme",
   "bugs": {

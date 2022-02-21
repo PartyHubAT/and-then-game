@@ -7,17 +7,17 @@
 </template>
 
 <script>
-import NewTextMsg from "../../../common/src/msgs/newText";
-import ContinueTextMsg from "../../../common/src/msgs/continueText";
-import ResultsMsg from "../../../common/src/msgs/results";
-import RequestLineMsg from "../../../common/src/msgs/requestLine";
-import WaitForResultsMsg from "../../../common/src/msgs/waitForResults";
 import * as PlayerPhase from "../types/PlayerPhase";
 import * as WriteTask from "../types/WriteTask";
 import WaitReason from "../types/WaitReason";
 import WaitText from "../components/WaitText";
 import WriteForm from "../components/WriteForm";
 import PlayerPhaseType from "../types/PlayerPhaseType";
+import NewTextMsg from "game-and-then-common/src/msgs/newText";
+import ContinueTextMsg from "game-and-then-common/src/msgs/continueText";
+import WaitForResultsMsg from "game-and-then-common/src/msgs/waitForResults";
+import ResultsMsg from "game-and-then-common/src/msgs/results";
+import RequestLineMsg from "game-and-then-common/src/msgs/requestLine";
 
 export default {
   name: "Game",

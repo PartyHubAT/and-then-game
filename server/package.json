@@ -9,5 +9,8 @@
   },
   "scripts": {
     "build-dev": "webpack --mode=development"
+  },
+  "dependencies": {
+    "game-and-then-common": "*"
   }
 }

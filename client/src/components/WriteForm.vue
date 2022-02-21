@@ -15,7 +15,7 @@
 import WritingPrompt from "./WritingPrompt";
 import TextInput from "./TextInput";
 import SendButton from "./SendButton";
-import LineDoneMsg from "../../../common/src/msgs/lineDone";
+import LineDoneMsg from "game-and-then-common/src/msgs/lineDone";
 export default {
   name: "WriteForm",
   components: { SendButton, TextInput, WritingPrompt },
