@@ -4,7 +4,13 @@
       {{ latestResult.title }}
       <div v-for="line in latestResult.lines" :key="line">{{ line }}</div>
     </div>
-    <button v-if="!canPressNext" @click="requestNextResult">Next</button>
+    <button
+      v-if="nextIsVisible"
+      :disabled="!canPressVisible"
+      @click="requestNextResult"
+    >
+      Next
+    </button>
   </div>
   <span v-else>You're done. Wait for others 🥳</span>
 </template>
@@ -21,14 +27,21 @@ export default {
        * @type {?CompletedText}
        */
       latestResult: null,
+      /**
+       * @type {boolean}
+       */
+      isLastResult: false,
     };
   },
   computed: {
     hasResult() {
       return this.latestResult !== null;
     },
-    canPressNext() {
+    nextIsVisible() {
       return this.$store.getters.playerIsHost;
+    },
+    canPressVisible() {
+      return !this.isLastResult;
     },
   },
   sockets: {
@@ -38,6 +51,7 @@ export default {
      */
     [ResultMsg.TAG]: function (msg) {
       this.latestResult = msg.text;
+      this.isLastResult = msg.isLast;
     },
   },
   methods: {

@@ -119,7 +119,10 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
    * Sends the games results to all players
    */
   function sendLatestResult() {
-    let msg = ResultMsg.make(completedTexts[resultIndex]);
+    let msg = ResultMsg.make(
+      completedTexts[resultIndex],
+      resultIndex === completedTexts.length - 1
+    );
     send.toAll(msg);
   }
 
