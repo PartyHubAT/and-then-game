@@ -1,7 +1,7 @@
 const path = require("path");
 
 module.exports = {
-  entry: "./src/server.js",
+  entry: path.resolve(__dirname, "src/server.js"),
   output: {
     filename: "server.js",
     path: path.resolve(__dirname, "../dist"),
@@ -13,7 +13,7 @@ module.exports = {
     rules: [
       {
         test: /\.m?js$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: /node_modules/,
         use: {
           loader: "babel-loader",
           options: {
