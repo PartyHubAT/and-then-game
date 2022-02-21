@@ -6,6 +6,7 @@
     </span>
     <div class="input-section">
       <text-input
+        ref="input"
         class="text-input"
         v-model="text"
         @submitText="trySubmitText"
@@ -45,7 +46,6 @@ export default {
       return this.task.lastLine !== null;
     },
     /**
-     * Checks whether the player has entered any text
      * @return {boolean} Whether the player has entered any text
      */
     hasEnteredText() {
@@ -61,6 +61,9 @@ export default {
         this.$emit("submitText");
       }
     },
+  },
+  mounted() {
+    this.$refs.input.focusTextArea();
   },
   emits: ["submitText"],
 };

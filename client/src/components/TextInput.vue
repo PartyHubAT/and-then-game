@@ -1,5 +1,6 @@
 ﻿<template>
   <textarea
+    ref="input"
     class="line-input"
     maxlength="128"
     :value="modelValue"
@@ -14,6 +15,11 @@ export default {
   name: "TextInput",
   props: {
     modelValue: String,
+  },
+  methods: {
+    focusTextArea() {
+      this.$refs.input.focus();
+    },
   },
   emits: ["update:modelValue", "submitText"],
 };
