@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import * as ResultsMsg from "game-and-then-common/src/msgs/result";
+import * as ResultMsg from "game-and-then-common/src/msgs/result";
 import * as NextResultMsg from "game-and-then-common/src/msgs/nextResult";
 
 export default {
@@ -34,9 +34,9 @@ export default {
   sockets: {
     /**
      * Handles the message for when one of the games results are presented to the user
-     * @param {ResultsMsg} msg The message
+     * @param {ResultMsg} msg The message
      */
-    [ResultsMsg.TAG]: function (msg) {
+    [ResultMsg.TAG]: function (msg) {
       this.latestResult = msg.text;
     },
   },
