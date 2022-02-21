@@ -1,8 +1,11 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import LoadingScreen from "../views/LoadingScreen.vue";
-import Writing from "../views/Writing.vue";
+import Game from "../views/Game.vue";
 import Results from "../views/Results.vue";
 
+/**
+ *  @type {import('vue-router').RouteRecordRaw[]}
+ */
 const routes = [
   {
     path: "/",
@@ -10,9 +13,9 @@ const routes = [
     component: LoadingScreen,
   },
   {
-    path: "/write",
-    name: "Writing",
-    component: Writing,
+    path: "/game",
+    name: "Game",
+    component: Game,
   },
   {
     path: "/results",

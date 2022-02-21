@@ -15,7 +15,7 @@ export default {
      * Handles the message for when the game starts
      */
     [StartMsg.TAG]: function () {
-      this.$router.push("/write");
+      this.$router.push("/game");
     },
   },
 };
