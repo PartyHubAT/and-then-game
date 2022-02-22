@@ -71,6 +71,14 @@ export default {
       this.latestResult = msg.text;
       this.isLastResult = msg.isLast;
     },
+
+    /**
+     * Called by the server when the game should end
+     */
+    returnToLobby() {
+      // Send message to parent
+      window.parent.postMessage("returnToLobby", "*");
+    },
   },
   methods: {
     /**
