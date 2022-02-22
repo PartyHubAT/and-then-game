@@ -11,6 +11,7 @@ const StartMsg = require("game-and-then-common/src/msgs/start");
 const RequestLineMsg = require("game-and-then-common/src/msgs/requestLine");
 const LineDoneMsg = require("game-and-then-common/src/msgs/lineDone");
 const NextResultMsg = require("game-and-then-common/src/msgs/nextResult");
+const EndMsg = require("game-and-then-common/src/msgs/end");
 
 /**
  * @param {EmitToAll} emitToAll
@@ -211,6 +212,14 @@ function initServerLogic(emitToAll, emitToOne, endGame, playerInfo, settings) {
           resultIndex++;
           sendLatestResult();
         }
+      },
+
+      /**
+       * Handles the message for when a player requests to end the game
+       * @param {PlayerId} playerId The id of the player that sent the request
+       */
+      [EndMsg.TAG]: function (playerId) {
+        if (group.playerIsHost(playerId)) endGame();
       },
     },
   };

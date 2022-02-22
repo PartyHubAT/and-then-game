@@ -11,6 +11,8 @@
     >
       Next
     </button>
+
+    <button v-if="canEnd" @click="returnToLobby">Return to lobby</button>
   </div>
   <span v-else>You're done. Wait for others 🥳</span>
 </template>
@@ -18,6 +20,7 @@
 <script>
 import * as ResultMsg from "game-and-then-common/src/msgs/result";
 import * as NextResultMsg from "game-and-then-common/src/msgs/nextResult";
+import * as EndMsg from "game-and-then-common/src/msgs/end";
 
 export default {
   name: "Results",
@@ -52,6 +55,12 @@ export default {
     canPressNext() {
       return !this.isLastResult;
     },
+    /**
+     * @returns {boolean} Whether the end-button can be pressed
+     */
+    canEnd() {
+      return this.$store.getters.playerIsHost;
+    },
   },
   sockets: {
     /**
@@ -69,6 +78,12 @@ export default {
      */
     requestNextResult() {
       this.$socket.emit(NextResultMsg.TAG, NextResultMsg.make());
+    },
+    /**
+     * Sends a request to return to the lobby to the server
+     */
+    returnToLobby() {
+      this.$socket.emit(EndMsg.TAG, EndMsg.make());
     },
   },
 };
