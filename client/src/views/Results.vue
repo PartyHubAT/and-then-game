@@ -64,6 +64,9 @@ export default {
     },
   },
   methods: {
+    /**
+     * Sends a request for the next result to the server
+     */
     requestNextResult() {
       this.$socket.emit(NextResultMsg.TAG, NextResultMsg.make());
     },
