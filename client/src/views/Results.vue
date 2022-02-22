@@ -6,7 +6,7 @@
     </div>
     <button
       v-if="nextIsVisible"
-      :disabled="!canPressVisible"
+      :disabled="!canPressNext"
       @click="requestNextResult"
     >
       Next
@@ -40,7 +40,7 @@ export default {
     nextIsVisible() {
       return this.$store.getters.playerIsHost;
     },
-    canPressVisible() {
+    canPressNext() {
       return !this.isLastResult;
     },
   },
