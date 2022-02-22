@@ -2,6 +2,7 @@ const path = require("path");
 
 module.exports = {
   entry: path.resolve(__dirname, "src/server.js"),
+  devtool: "inline-source-map",
   output: {
     filename: "server.js",
     path: path.resolve(__dirname, "../dist"),
@@ -22,5 +23,8 @@ module.exports = {
         },
       },
     ],
+  },
+  optimization: {
+    minimize: false,
   },
 };
