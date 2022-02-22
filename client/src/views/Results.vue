@@ -34,12 +34,21 @@ export default {
     };
   },
   computed: {
+    /**
+     * @returns {boolean} Whether there is a result to display
+     */
     hasResult() {
       return this.latestResult !== null;
     },
+    /**
+     * @returns {boolean} Whether the next-button is visible
+     */
     nextIsVisible() {
       return this.$store.getters.playerIsHost;
     },
+    /**
+     * @returns {boolean} Whether the next-button can be pressed
+     */
     canPressNext() {
       return !this.isLastResult;
     },
