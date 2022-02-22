@@ -1,20 +1,25 @@
 ﻿<template>
-  <div v-if="hasResult">
-    <div>
-      {{ latestResult.title }}
-      <div v-for="line in latestResult.lines" :key="line">{{ line }}</div>
-    </div>
-    <button
-      v-if="nextIsVisible"
-      :disabled="!canPressNext"
-      @click="requestNextResult"
-    >
-      Next
-    </button>
+  <div class="center-screen">
+    <div v-if="hasResult" class="form">
+      <div class="result">
+        <span class="genre"> {{ latestResult.genre }} </span>
+        <div v-for="line in latestResult.lines" :key="line" class="line">
+          {{ line }}
+        </div>
+      </div>
+      <button
+        v-if="nextIsVisible"
+        :disabled="!canPressNext"
+        @click="requestNextResult"
+        class="next"
+      >
+        Next
+      </button>
 
-    <button v-if="canEnd" @click="returnToLobby">Return to lobby</button>
+      <button v-if="canEnd" @click="returnToLobby">Return to lobby</button>
+    </div>
+    <span v-else class="wait-text">You're done. Wait for others 🥳</span>
   </div>
-  <span v-else>You're done. Wait for others 🥳</span>
 </template>
 
 <script>
@@ -97,4 +102,72 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.center-screen {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wait-text {
+  color: white;
+  font-family: var(--font-content);
+  font-size: var(--font-large);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.result {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-bottom: var(--space-large);
+}
+
+.genre {
+  color: var(--primary);
+  font-family: var(--font-content);
+  font-size: var(--font-large);
+  margin-bottom: var(--space-medium);
+  text-align: center;
+}
+
+.line {
+  color: white;
+  font-family: var(--font-content);
+  font-size: var(--font-medium);
+  margin-bottom: var(--space-small);
+}
+
+.next {
+  margin-bottom: var(--space-large);
+}
+
+button {
+  background-color: var(--primary);
+  border: 0;
+  padding: var(--space-small);
+  font-family: var(--font-content);
+  color: var(--on-primary);
+  border-radius: var(--space-small);
+  font-size: var(--font-medium);
+}
+
+button:hover {
+  background-color: var(--primary-light);
+}
+
+button:disabled {
+  background-color: var(--primary-disabled);
+}
+
+button:active {
+  background-color: var(--primary-dark);
+}
+</style>
