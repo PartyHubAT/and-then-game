@@ -31,6 +31,7 @@ export default {
   color: var(--primary);
   font-family: var(--font-content);
   padding: var(--space-small);
+  font-size: var(--font-medium);
   outline: none;
   resize: none;
 }
@@ -38,18 +39,14 @@ export default {
 .line-input::placeholder {
   color: var(--primary-light);
   font-family: var(--font-content);
+  font-size: var(--font-medium);
 }
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
   .line-input {
     border-radius: 10px;
-    font-size: 15px;
     height: 150px;
-  }
-
-  .line-input::placeholder {
-    font-size: 15px;
   }
 }
 
@@ -57,12 +54,7 @@ export default {
 @media only screen and (min-width: 600px) {
   .line-input {
     border-radius: 15px;
-    font-size: 20px;
     height: 175px;
-  }
-
-  .line-input::placeholder {
-    font-size: 20px;
   }
 }
 
@@ -70,16 +62,11 @@ export default {
 @media only screen and (min-width: 768px) {
   .line-input {
     border-radius: 15px;
-    font-size: 20px;
     height: 40px;
     white-space: nowrap;
     overflow-wrap: normal;
     overflow-y: hidden;
     overflow-x: scroll;
-  }
-
-  .line-input::placeholder {
-    font-size: 20px;
   }
 
   .line-input::-webkit-scrollbar {

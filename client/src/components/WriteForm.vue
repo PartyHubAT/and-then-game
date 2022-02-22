@@ -95,8 +95,8 @@ export default {
 
   .lastLine {
     width: 90%;
-    font-size: 20px;
     margin-bottom: var(--space-medium);
+    font-size: var(--font-medium);
   }
 }
 
@@ -111,7 +111,6 @@ export default {
 
   .lastLine {
     width: 80%;
-    font-size: 20px;
     margin-bottom: var(--space-medium);
   }
 }
@@ -130,7 +129,6 @@ export default {
   }
 
   .lastLine {
-    font-size: 20px;
     margin-bottom: var(--space-medium);
   }
 }

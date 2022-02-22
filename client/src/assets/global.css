@@ -20,6 +20,9 @@
     --space-small: 5px;
     --space-medium: 10px;
     --space-large: 20px;
+    --font-small: 10px;
+    --font-medium: 15px;
+    --font-large: 20px;
   }
 }
 
@@ -29,6 +32,9 @@
     --space-small: 7px;
     --space-medium: 15px;
     --space-large: 30px;
+    --font-small: 15px;
+    --font-medium: 20px;
+    --font-large: 25px;
   }
 }
 
@@ -38,6 +44,9 @@
     --space-small: 7px;
     --space-medium: 15px;
     --space-large: 30px;
+    --font-small: 20px;
+    --font-medium: 23px;
+    --font-large: 30px;
   }
 }
 

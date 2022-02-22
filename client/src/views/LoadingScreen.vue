@@ -38,6 +38,7 @@ export default {
 }
 .subtitle {
   font-family: var(--font-content);
+  font-size: var(--font-large);
   color: #f8f8f8;
 }
 
@@ -46,9 +47,6 @@ export default {
   .title {
     font-size: 50px;
   }
-  .subtitle {
-    font-size: 20px;
-  }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
@@ -56,18 +54,12 @@ export default {
   .title {
     font-size: 80px;
   }
-  .subtitle {
-    font-size: 20px;
-  }
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
   .title {
     font-size: 100px;
-  }
-  .subtitle {
-    font-size: 25px;
   }
 }
 </style>
